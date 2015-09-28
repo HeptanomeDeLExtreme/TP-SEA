@@ -102,5 +102,29 @@ retourner dans le main.
 Exercice : écrire (un peu) d'assembleur ARM :
 
 Question 2-7 :
+Non, le programme ne retourne pas correctement à dummy (quand on utilise
+l'instruction b) en effet, nous n'avons pas précisé d'adresse de retour
+dans lr, donc après dummy, le programme se dirige vers ce qui a dans lr,
+c'est-à-dire "after_kmain".
 
+Question 2-8 : OK
+
+Exercice : l'attribut naked
+
+Question 2-9 :
+
+Dans une fonction naked, il n'y a pas de :
+- prologue : les registres ne sont pas sauvegardés.
+- épilogue : les registres ne sont pas restaurés.
+str et ldr ne sont omis par exemple.
+
+Exercice : utiliser les tests fournis
+
+Question 2-10 : OK
+
+Question 2-11 : OK
+
+Question 2-12 :
+
+./run-test.sh ../test/kmain-bidule.c ../test/bidule-called-twice.gdb
 
