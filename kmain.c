@@ -17,6 +17,7 @@ div(int dividend, int divisor)
 }
 
 int
+__attribute__((naked))
 compute_volume(int rad)
 {
   int rad3 = rad * rad * rad;

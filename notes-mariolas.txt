@@ -1,2 +1,125 @@
-Q2-3
+CHAPITRE 2
+================================================================================
 
+Q2-2 :
+
+Noter les adresses de ...
+Début du code : 0x8000
+Fin du code : 0x9180
+Début des var globales non init : 0x9184
+Fin de ça : 0x9194
+Début des fonctions de kmain : 0x909c
+
+================================================================================
+
+Q2-3 :
+
+Quels registres sont utilisés par la fonction div() ?
+appel : r3, r2, r1, r0
+r2 et r3 registres de travail (stocke les valeurs courantes, sert pour les
+calculs)
+
+Les valeurs de ces registres ?
+r3 stocke tour à tour remainder et result et divisor
+r2 stocke remainder
+r1 stocke divisor
+r0 stocke la valeur de retour (en accord avec convention d'appel)
+
+Quel registre le compilateur a-t’il décidé d’utiliser pour la variable result ?
+Pendant la boucle, result est stocké dans r3
+Pour le retour, stocké dans r0
+
+================================================================================
+
+Q2-4 :
+
+Pile en adresses décroissantes.
+
+Plus petite adresse : 0x95ac (ou 95d4, débat) (sous-fonction la plus basse, div)
+
+SP pointe sur la dernière case pleine (cf doc ARM)
+
+================================================================================
+
+Q2-5 :
+
+compute_volume empile lr avant de s'éxécuter
+div ne le fait : pas besoin car il n'appelle pas de fonction donc pas
+d'écrasement de lr !
+
+Avant appel de kmain, sp pointe vers 0x95e4
+
+Dans la pile, dans le sens des @ decrois :
+kmain, fonct principale, avec lr et ses var locales
+compute-vol, appelée par kmain, avec lr et ses var locales
+div, appelée par compute_vol, avec ses var locales
+(chaque fonction a sa pile)
+(avant appel, on sauvegarde les reg)
+
+================================================================================
+
+Q2-6 :
+
+L'appel d'une fonction (commande asm bl) fait une màj de lr (link register)
+
+================================================================================
+
+Q2-7 :
+
+Le programme ne retourne pas correctement car on n'empile pas lr.
+Pour corriger cela on doit le faire (soit manuellement soit en utilisant
+bl et pas b) => ça marche.
+
+================================================================================
+
+Q2-8 :
+
+Voir le code ! Ça marche.
+
+================================================================================
+
+Q2-9 :
+
+On perd la sauvegarde de contexte (lr, sp, pc, registres) et leur restauration.
+Une fonction naked peut modifier les reg de la fonction appelante.
+Impossible donc de coder en C après une naked.
+Mais très utile pour récupérer le contexte de la fonction précédente !<
+
+================================================================================
+
+Q2-10 / 2-11:
+
+Nous passons bien deux fois par bidule.
+Nous sommes très convaincus.
+
+================================================================================
+
+Q2-12 :
+
+.run-test.sh ../test/kmain-bidule.c ../test/bidule-called-twice.gdb
+
+/!\ /!\ /!\ Le $0 est le 1er param, soit la commande elle-même !  /!\ /!\ /!\
+#mathieu
+
+================================================================================
+================================================================================
+
+CHAPITRE 3 :
+================================================================================
+
+Q3-1 :
+
+cpsr à 0x400001df au début de kmain
+Selon le sujet de TP, la fin en 0xF (=0b1111) signifie "mode system"
+On est en mode système !
+Ça se tient, on a encore rien exécuté.
+
+================================================================================
+
+Q3-2 :
+
+Avant la magouille :
+cpsr à 0x400001df
+sp à 0X961c
+
+Après :
