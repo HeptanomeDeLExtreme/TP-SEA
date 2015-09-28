@@ -58,9 +58,49 @@ la sous-fonction la plus basse.
 
 SP pointe sur la dernière case pleine (cf convention ARM).
 
+Question 2-5 :
+
+Initialisation de SP avant l'appel de kmani : 0x95E4
+
+Contenu de la pile à la ligne 18 :
+
 0x95ac: 0x00000153      0x0002b55c      0x000000cb      0x0000020b
 0x95bc: 0x00000000      0x00000005      0x00000000      0x0000007d
 0x95cc: 0x00000000      0x00009170      0x00000000      0x00000005
 0x95dc: 0x00000000      0x00008098      0x00000000      0x00000000
 0x95ec: 0x00000000      0x00000000      0x00000000      0x00000000
+
+Question 2-6 :
+
+Instruction assembleur mettant à jour les valeurs du registre lr : BL
+
+Avant dummy :
+	LR = 0x8098
+Retour dummy :
+	LR = 0x9168
+Après dummy :
+	LR = 0x9168
+	
+Avant compute_volume :
+	LR = 0x9168
+Retour compute_volume :
+	LR = 0x913C
+Après compute_volume :
+	LR = 0x913C
+	
+Avant div :
+	LR = 0x9170
+Retour div :
+	LR = 0x913C
+Après div :
+	LR = 0x913C
+
+Lorsqu'on passe de compute_volume à kmain, l'adresse de retour
+est prise dans PC et non dans LR, car c'est la dernière fonction à
+retourner dans le main.
+
+Exercice : écrire (un peu) d'assembleur ARM :
+
+Question 2-7 :
+
 
