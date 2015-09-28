@@ -1,0 +1,60 @@
+Chapitre 2 :
+Prise en main de l'environnement de compilation, exécution, et débogage.
+
+Exercice : Prise en main des outils
+
+Question 2-1 : OK
+
+Question 2-2 :
+
+Section .text :
+	début = 00008000
+	fin = 00009180
+	
+Section .bss :
+	début = 00009184
+	fin = 00009194
+	
+Fonctions du fichier kmain.c
+	
+	dummy :
+		début = 0000909c
+		fin = 000090a0
+		
+	div :
+		début = 000090a4
+		fin = 000090fc
+		
+	compute_volume :
+		début = 00009100
+		fin = 00009150
+		
+Les fonctions du fichier kmain.c sont contiguës et placées
+précédemment à la fonction kmain.c dans kernel.list.
+
+Exercice : observation des appels de fonction
+
+Question 2-3 :
+
+Registres utilisés par la fonction div :
+	R0
+	R1
+	R2
+	R3
+	
+Dû au nombre de passages importants dans la boucle while,
+les valeurs des registres n'ont pas été indiquées.
+
+Pour result, gcc utilise le registre R0.
+
+Exercice : appels de fonction
+
+Question 2-4 :
+
+La pile est décroissante !
+
+La plus petite adresse mémoire est 0x95AC, car on est dans
+la sous-fonction la plus basse.
+
+SP pointe sur la dernière case pleine (cf convention ARM).
+
