@@ -1,0 +1,40 @@
+Chapitre 3 :
+
+Modes d'exécution du processeur
+
+Exercice : changement de mode d'exécution
+
+Question 3-1 :
+
+Mode d'exécution : System
+
+Question 3-2 :
+
+instruction : __asm("cps #19")
+car 19 = 0b 10011
+
+Avant l'instruction :
+	Valeur de CPSR : 0x1DF donc mode System
+	Valeur de SP : 0x95FC
+	
+Après l'instruction :
+	Valeur de CPSR : 0x1D3 donc mode SVC
+	Valeur de SP : 0x93FC
+	
+???? Vérifier que les valeurs de SP sont bonnes ????
+
+Question 3-3 :
+
+Avant le mode SVC :
+	LR = 0x8098
+	
+Après le mode SVC :
+	LR = 0x0
+	
+Quand on passe en mode SVC, LR pointe vers la table des vecteurs
+d'interruption. En effet, le mode SVC est déclenché lors des
+interruptions logicielles.
+
+Question 3-4 :
+
+On passe pas en mode SVC, on reste en USER (a revérifier)
