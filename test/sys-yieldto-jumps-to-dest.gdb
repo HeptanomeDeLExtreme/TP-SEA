@@ -9,18 +9,20 @@ commands
   continue 
 end
 
-break kmain-yieldto.c:14
+# breakpoint on v1++;
+break kmain-yieldto.c:12
 commands
-  # the breakpoint is locates inside the  loop, so we can't just print
-  # PC, as it would be hard to validate in assess_execution
+  # we don't just print $pc, as it would be too hard to assess later on
   print &user_process_1
   continue 
 end
 
 set $iterations=0
 
-break kmain-yieldto.c:24
+# breakpoint on v2-=2;
+break kmain-yieldto.c:22
 commands
+  # we don't just print $pc, as it would be too hard to assess later on
   print &user_process_2
   set $iterations++
   if $iterations==5

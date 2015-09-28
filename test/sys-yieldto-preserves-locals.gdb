@@ -4,7 +4,8 @@ set verbose off
 set confirm off
 
 
-break kmain-yieldto.c:14
+# breakpoint on v1++;
+break kmain-yieldto.c:12
 commands
   print v1
   continue 
@@ -12,7 +13,8 @@ end
 
 set $iterations=0
 
-break kmain-yieldto.c:24
+# breakpoint on v2-=2;
+break kmain-yieldto.c:22
 commands
   print v2
   set $iterations++

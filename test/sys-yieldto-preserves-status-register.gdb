@@ -5,7 +5,8 @@ set confirm off
 
 source utils.gdb
 
-break kmain-yieldto.c:16
+# breakpoint on v1++;
+break kmain-yieldto.c:12
 commands
   print /x$cpsr
   print_sr
@@ -15,7 +16,8 @@ end
 # "negative" is bit 31 of the status register
 set $nflag=(1<<31)
 
-break kmain-yieldto.c:23
+# breakpoint upon entering user_process_2
+break kmain-yieldto.c:19
 commands
   # artificially set the 'N' flag in process 2
   set $cpsr=$cpsr | $nflag
@@ -25,7 +27,8 @@ end
 
 set $iterations=0
 
-break kmain-yieldto.c:26
+# breakpoint on v2-=2;
+break kmain-yieldto.c:22
 commands
   print /x$cpsr
   print_sr
