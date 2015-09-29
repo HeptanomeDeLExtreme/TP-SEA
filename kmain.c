@@ -25,5 +25,5 @@ int compute_volume(int rad)
 void kmain( void )
 {
 	__asm("cps 0x10");
-	sys_reboot();
+	sys_nop();
 }

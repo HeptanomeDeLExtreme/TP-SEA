@@ -7,6 +7,12 @@ void sys_reboot()
 	__asm("SWI 0" : : : "lr"); // Software Interrupt
 }
 
+void sys_nop()
+{
+	__asm("mov r0, %0" : : "r"(2));
+	__asm("swi 0" : : : "lr");
+}
+
 void swi_handler()
 {
 	int interruptNumber;
@@ -18,6 +24,10 @@ void swi_handler()
 			do_sys_reboot();
 		break;
 	
+		case 2 :
+			do_sys_nop();
+		break;
+
 		default :	
 			PANIC();
 
@@ -25,6 +35,10 @@ void swi_handler()
 
 }
 
+void do_sys_nop()
+{
+
+}
 
 void do_sys_reboot()
 {
