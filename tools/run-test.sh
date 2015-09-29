@@ -3,6 +3,9 @@
 TOOLSDIR=$(dirname $(realpath $0))
 SOURCEFILE=$(realpath $1)
 SCRIPTFILE=$(realpath $2)
+echo $TOOLSDIR
+echo $SOURCEFILE
+echo $SCRIPTFILE
 
 kill_qemu() { killall -9 qemu-system-arm > /dev/null 2>&1 ;}
 

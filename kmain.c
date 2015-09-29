@@ -22,7 +22,8 @@ int compute_volume(int rad)
 
 int kmain( void )
 {
-	
+	__asm("cps #16");
+	__asm("cps #19");
 	//__asm("mov r14, %0" : : "r"(37216));
 	__asm("bl dummy");
 	int radius = 5;
