@@ -68,7 +68,7 @@ undefined_asm_handler:
 	b undefined_asm_handler
 
 swi_asm_handler:
-	b swi_asm_handler
+	b swi_handler
 	
 prefetch_asm_handler:
 	b irq_asm_handler
