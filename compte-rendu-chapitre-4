@@ -11,4 +11,45 @@ Question 4-5 : OK, le test fonctionne correctement.
 
 Exercice : un appel système qui retourne
 
+Question 4-6 : OK
+
+Question 4-7 :
+La valeur qui a été stockée dans LR est écrasée lors du traitement
+de l'interruption. De ce fait, lorsqu'on souhaite retourner en mode
+USER, l'OS ne sait pas où retourner.
+
+Question 4-8 :
+
+Le registre SPSR n'apparaît car le mode d'exécution est celui du USER,
+et ce mode d'exécution ne possède pas de registre SPSR contrairement
+au mode SVC.
+
+Question 4-9 : OK
+
+Question 4-10 :
+
+Non, il n'y a pas besoin de sauver explicitement le registre CPSR dans
+le registre SPSR, car cela est fait automatiquement lors du passage
+du mode USER à un quelconque mode privilégié. C'est l'une des premières
+instructions qui est réalisée lors d'un tel changement de mode.
+
+Question 4-11 : OK
+
+Question 4-12 :
+1er passage : 0x9464
+2ème passage : 0x9454
+3ème passage : 0x9444
+
+On constate une décroissance du registre SP dans le mode SVC.
+
+En effet, lorsqu'on rentre dans la fonction swi_handler(), un prologue
+et un épilogue sont générés, notamment pour laisser une certaine
+place pour les paramètres dans SP. Sauf que lors du ldmfd, on modifie
+pc, donc l'épilogue n'est jamais effectué. La solution est de supprimer
+le prologue et l'épilogue en utilisant l'attribut "naked" car en soit,
+on n'a pas besoin de toucher au registre SP.
+
+Question 4-13 :
+
+Exercice
 
