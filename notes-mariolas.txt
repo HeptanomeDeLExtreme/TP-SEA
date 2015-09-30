@@ -120,6 +120,65 @@ Q3-2 :
 
 Avant la magouille :
 cpsr à 0x400001df
-sp à 0X961c
+sp à 0X9620
 
 Après :
+cpsr à 0x400001d3
+sp à 0X9420
+
+On est en mode supervisor (SVC)
+La valeur de cpsr est cohérente (f->3 <=> 1111->0011)
+
+================================================================================
+
+Q3-3 :
+
+LR avant (en mode system) : 0x8098
+
+LR après (en mode supervisor) : 0x0
+
+C'est très cohérent, car lorsqu'on passe en mode exception depuis le mode system
+on ne modifie pas le reg LR. Or ce reg est propre au mode d'exception, donc ne
+contient rien à ce moment là car pas encore utilisé.
+
+LR pointe au début du code de boot du noyau (0x8000).
+
+================================================================================
+
+Q3-4 :
+
+On reste en mode user. En effet, le mode SVC est celui où se place le processeur
+après une interruption logicielle (swi). Et le mode user ne peut pas déclencher
+de swi.
+
+================================================================================
+
+Q3-5 :
+
+On ne peut pas accéder au spsr, car on est en mode system et que ce reg
+n'existe pas en mode system (utilisé que pour les modes d'exception).
+
+(On a utilisé la commande asm "mrs")
+
+================================================================================
+
+Q3-6 :
+
+Valeurs de CPSR :
+Au début de kmain : 0x000001df (nzcs...AIF[SYSTEM])
+Après passage en svc : 0x000001d3 (nzcs...AIF[SVC])
+Après passage en user : 0x000001d0 (nzcs...AIF[USER])
+
+================================================================================
+================================================================================
+
+CHAPITRE 4 :
+================================================================================
+
+Q4-1 :
+
+
+
+================================================================================
+
+NB : Pour reboot, saut à 0x8000 avec màj reg de statut
