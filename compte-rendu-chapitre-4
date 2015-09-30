@@ -49,7 +49,33 @@ pc, donc l'épilogue n'est jamais effectué. La solution est de supprimer
 le prologue et l'épilogue en utilisant l'attribut "naked" car en soit,
 on n'a pas besoin de toucher au registre SP.
 
-Question 4-13 :
+Question 4-13 : OK
 
-Exercice
+Exercice : un appel système avec passage de paramètres
+
+Question 4-14 : OK
+
+Question 4-15 :
+
+Etat de la pile au début de la fonction do_sys_settime() :
+
+0x946c: 0x00000003      0x00000010      0x00000010      0x00000040
+0x947c: 0x000080a0      0x000080a4      0x000080b4      0x000080ac
+0x948c: 0x000080a8      0x000080b0      0x00000000      0x00000000
+0x949c: 0x00000000      0x00008a7c      0x00000000      0x00000000
+0x94ac: 0x00000000      0x00000000      0x00000000      0x00000000
+
+Les valeurs qu'on retrouve sont logiques, on a bien dans R0 
+la valeur de l'interruption de sys_settime() qui est 3 et
+dans R1, la valeur du paramètre date_ms.
+
+Question 4-16 :
+
+L'état de le pile change au cours de la fonction. La valeur de
+R1 est par exemple écrasée. C'est mauvais, car nous avons
+enregistré la valeur du sommet de la pile dans R1.
+
+Question 4-17 :
+
+
 

@@ -1,5 +1,9 @@
 #include "syscall.h"
 #include "util.h"
+#include "stdint.h"
+#include "hw.h"
+
+uint32_t* stackHead;
 
 void sys_reboot()
 {
@@ -13,13 +17,24 @@ void sys_nop()
 	__asm("swi 0" : : : "lr");
 }
 
+void sys_settime(uint64_t date_ms)
+{
+	__asm("mov r0, %0" : : "r"(3));
+	__asm("mov r1, %0" : : "r"(date_ms));
+	__asm("swi 0" : : : "lr");
+}
+
 void __attribute__((naked)) swi_handler()
 {
 
 	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
-
+	
+	// Mémoriser l'emplacement du sommet de la pile
+	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1"); // Les
+	// registres précieux sont R0 et R1.
+		
 	int interruptNumber;
-	__asm("mov %0, r0" : "=r"(interruptNumber));
+	__asm("mov %0, r0" : "=r"(interruptNumber) : : "r0");
 	
 	switch(interruptNumber)
 	{
@@ -29,11 +44,14 @@ void __attribute__((naked)) swi_handler()
 		case 2 :
 			do_sys_nop();
 			break;
+		case 3 :
+			do_sys_settime();
+			break;
 		default :	
 			PANIC();
 
 	}
-
+	
 	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
 	
 }
@@ -57,3 +75,11 @@ void do_sys_reboot()
 	__asm("mov pc, %0" : : "r"(0x8000));
 }
 
+void do_sys_settime()
+{
+	// Récupérer le premier paramètre après le stackHead
+	// qui représente le paramètre passé à la fonction sys_settime()
+	uint32_t date_ms;
+	date_ms = *(stackHead + 1);
+	set_date_ms(date_ms);
+}

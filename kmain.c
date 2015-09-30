@@ -26,9 +26,5 @@ void kmain( void )
 {
 	//__asm("mrs r0, spsr");
 	__asm("cps 0x10");
-	while(1)
-	{
-		sys_nop();
-	}
-	sys_reboot();
+	sys_settime(16);
 }

@@ -60,7 +60,7 @@ SP pointe sur la dernière case pleine (cf convention ARM).
 
 Question 2-5 :
 
-Initialisation de SP avant l'appel de kmani : 0x95E4
+Initialisation de SP avant l'appel de kmain : 0x95E4
 
 Contenu de la pile à la ligne 18 :
 
