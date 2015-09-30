@@ -38,7 +38,20 @@ interruptions logicielles.
 
 Question 3-4 :
 
-On passe pas en mode SVC, on reste en USER (a revérifier)
+On ne passe pas en mode SVC, on reste en mode USER.
+En fait, on passe en mode SVC lorsqu'il y a une interruption
+logicielle. En étant en mode USER, il n'est pas possible de forcer
+à passer en "privilege mode". SVC est le mode des interruptions
+logicielles. On peut passer en mode SVC lorsqu'on est en mode System.
+On n'a pas les privilèges nécessaires.
 
-OD : Le mode change bien. Rien ne se passe. :/ SP n'est pas
-modifié. LR ne change pas.
+Question 3-5 :
+
+Ce n'est pas possible d'accéder au mode SPSR au début de kmain car
+nous sommes en mode System, et le mode System ne possède pas de
+registre SPSR.
+
+ATTENTION : en fait il fallait utiliser l'instruction mrs pour
+essayer d'afficher SPRS.
+
+Question 3-6 : OK
