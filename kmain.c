@@ -24,7 +24,7 @@ int compute_volume(int rad)
 
 void kmain( void )
 {
+	//__asm("mrs r0, spsr");
 	__asm("cps 0x10");
-	__asm("cps 0x13");
-	sys_nop();
+	sys_reboot();
 }

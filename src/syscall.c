@@ -15,6 +15,9 @@ void sys_nop()
 
 void swi_handler()
 {
+
+	__asm("STMFD sp!, {r0-12,lr}"); // Save the user register
+
 	int interruptNumber;
 	__asm("mov %0, r0" : "=r"(interruptNumber));
 	
@@ -32,6 +35,8 @@ void swi_handler()
 			PANIC();
 
 	}
+
+	__asm("LDMFD sp!, {r0-r12,pc}"); // Restore the user register
 
 }
 
