@@ -13,7 +13,7 @@ void sys_nop()
 	__asm("swi 0" : : : "lr");
 }
 
-void swi_handler()
+void __attribute__((naked)) swi_handler()
 {
 
 	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
@@ -35,12 +35,12 @@ void swi_handler()
 	}
 
 	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
-
+	
 }
 
 void do_sys_nop()
 {
-
+	
 }
 
 void do_sys_reboot()
