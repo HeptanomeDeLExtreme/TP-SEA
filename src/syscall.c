@@ -16,7 +16,7 @@ void sys_nop()
 void swi_handler()
 {
 
-	__asm("STMFD sp!, {r0-12,lr}"); // Save the user register
+	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
 
 	int interruptNumber;
 	__asm("mov %0, r0" : "=r"(interruptNumber));
@@ -34,7 +34,7 @@ void swi_handler()
 
 	}
 
-	__asm("LDMFD sp!, {r0-r12,pc}"); // Restore the user register
+	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
 
 }
 
@@ -49,8 +49,8 @@ void do_sys_reboot()
 	//const int PM_WDOG = 0x20100024;
 	//const int PM_PASSWORD = 0x5a000000;
 	//const int PM_RSTC_WRCFG_FULL_RESET = 0x00000020;
-	//PUT32(PM_WDOG, PM_PASSWORD | 1);
-	//PUT32(PM_RSTC, PM_PASSWORD | PM_RSTC_WRCFG_FULL_RESET);
+	//SET32(PM_WDOG, PM_PASSWORD | 1);
+	//SET32(PM_RSTC, PM_PASSWORD | PM_RSTC_WRCFG_FULL_RESET);
 	//while(1);
 
 	// Methode gitan parce que l'autre marche pas

@@ -14,7 +14,7 @@ void do_sys_reboot();
 void do_sys_nop();
 
 /* Extern declaration */
-extern void PUT32 ( unsigned int, unsigned int );
+//extern void SET32 ( unsigned int, unsigned int );
 
 
 #endif
