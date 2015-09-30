@@ -22,6 +22,7 @@ Après l'instruction :
 	Valeur de SP : 0x93FC
 	
 ???? Vérifier que les valeurs de SP sont bonnes ????
+???? Comment faire ????
 
 Question 3-3 :
 
@@ -38,3 +39,6 @@ interruptions logicielles.
 Question 3-4 :
 
 On passe pas en mode SVC, on reste en USER (a revérifier)
+
+OD : Le mode change bien. Rien ne se passe. :/ SP n'est pas
+modifié. LR ne change pas.
