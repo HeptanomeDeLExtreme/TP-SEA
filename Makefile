@@ -22,7 +22,7 @@ COMMON_FLAGS=-mcpu=arm1176jzf-s
 OBJECTS=$(addsuffix .o,  $(addprefix build/, $(basename $(notdir $(wildcard src/*.[cs])))))
 
 # non-default usage: "make KMAIN=test/my-kmain.c" 
-KMAIN ?= ./kmain.c
+KMAIN ?= ./kmain-reboot.c
 
 # check whether kmain does exists. typically this would get triggered
 # by a command like "make KMAIN=" (i.e. with no value for KMAIN)
