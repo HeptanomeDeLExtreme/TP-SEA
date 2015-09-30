@@ -25,12 +25,10 @@ void swi_handler()
 	{
 		case 1 :
 			do_sys_reboot();
-		break;
-	
+			break;	
 		case 2 :
 			do_sys_nop();
-		break;
-
+			break;
 		default :	
 			PANIC();
 

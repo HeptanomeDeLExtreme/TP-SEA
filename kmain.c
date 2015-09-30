@@ -26,5 +26,9 @@ void kmain( void )
 {
 	//__asm("mrs r0, spsr");
 	__asm("cps 0x10");
+<<<<<<< HEAD
+=======
+	__asm("cps 0x13");
+>>>>>>> 6d04acda0029958bf41dfc620b43ea197264feea
 	sys_reboot();
 }
