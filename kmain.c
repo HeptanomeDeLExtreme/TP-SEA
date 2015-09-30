@@ -1,4 +1,5 @@
 #include "src/syscall.h"
+#include "stdint.h"
 
 void dummy()
 {
@@ -26,5 +27,6 @@ void kmain( void )
 {
 	//__asm("mrs r0, spsr");
 	__asm("cps 0x10");
-	sys_settime(16);
+	//sys_settime(18446744073709551613);
+	sys_settime(UINTMAX_MAX-2);
 }

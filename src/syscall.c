@@ -3,7 +3,7 @@
 #include "stdint.h"
 #include "hw.h"
 
-uint32_t* stackHead;
+uint64_t* stackHead;
 
 void sys_reboot()
 {
@@ -79,7 +79,7 @@ void do_sys_settime()
 {
 	// Récupérer le premier paramètre après le stackHead
 	// qui représente le paramètre passé à la fonction sys_settime()
-	uint32_t date_ms;
+	uint64_t date_ms;
 	date_ms = *(stackHead + 1);
 	set_date_ms(date_ms);
 }
