@@ -175,10 +175,34 @@ Après passage en user : 0x000001d0 (nzcs...AIF[USER])
 CHAPITRE 4 :
 ================================================================================
 
-Q4-1 :
+Q4-1 à 4-5 :
 
+NB :
+-Pour reboot, saut à 0x8000 avec màj reg de statut
+-Inclure "util.h" pour utiliser PANIC()
 
+Q4-5 : test OK \o/
 
 ================================================================================
 
-NB : Pour reboot, saut à 0x8000 avec màj reg de statut
+Q4-6 à 4-13 :
+
+Q4-10 : Pas nécessaire de sauvegarder explicitement le reg de statut cpsr car
+il est automatiquement sauvegardé dans spsr. En quittant le mode svc (post-swi)
+on revient en mode user de manière transparente.
+
+Q4-12 :
+0x93b8
+0x93a8 -> on remonte dans la pile
+0x9398 -> yeah
+
+Le soucis est que le handler, comme toute fonction, fait ses propres
+sauvegardes et restaurations de contexte. La sauvegarde est faite, mais,
+déjà elle ne sert à rien (même si elle ne fait pas de mal), et surtout
+lors de notre resaturation perso (semi-manuelle) on restaure le PC.
+Le code de restauration du handler ne peut donc pas être exécuté.
+Pour régler ce problème on utilise l'attribut "tout nu" sur le handler !
+
+================================================================================
+
+Exo terminé, tous les tests sont OK.
