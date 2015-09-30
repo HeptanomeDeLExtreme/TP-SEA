@@ -1,3 +1,5 @@
+#include "src/syscall.h"
+
 void dummy()
 {
 	return;
@@ -20,17 +22,9 @@ int compute_volume(int rad)
 	return div(4*355*rad3, 3*113);
 }
 
-int kmain( void )
+void kmain( void )
 {
-	__asm("cps #16");
-	__asm("cps #19");
-	//__asm("mov r14, %0" : : "r"(37216));
-	__asm("bl dummy");
-	int radius = 5;
-	__asm("mov r2, %0" : : "r"(radius));
-	__asm("mov %0, r3" : "=r"(radius));
-	int volume;
-	dummy();
-	volume = compute_volume(radius);
-	return volume;
+	__asm("cps 0x10");
+	__asm("cps 0x13");
+	sys_nop();
 }

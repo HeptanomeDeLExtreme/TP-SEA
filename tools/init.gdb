@@ -14,6 +14,8 @@ b kernel_panic
 
 b *kmain
 
+b swi_handler
+
 source utils.gdb
 
 continue
