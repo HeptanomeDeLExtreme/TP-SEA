@@ -30,8 +30,8 @@ uint64_t sys_gettime()
 {
 	/* Local variable */
 	uint64_t reg0;
-	//~ uint64_t reg1;
-	//~ uint64_t time;
+	uint64_t reg1;
+	uint64_t time;
 	
 	/* Switch to interrupt mode */
 	__asm("mov r0, %0" : : "r"(4));
@@ -39,11 +39,11 @@ uint64_t sys_gettime()
 	
 	/* Get the result of do_sys_gettime() */
 	__asm("mov %0, r0" : "=r"(reg0));
-	//~ __asm("mov %0, r1" : "=r"(reg1));
-	//~ 
-	//~ /* Rebuild the result*/
-	//~ time = reg1 << 32;
-	//~ time += reg0;
+	__asm("mov %0, r1" : "=r"(reg1));
+	
+	/* Rebuild the result*/
+	time = reg1 << 32;
+	time += reg0;
 	
 	return reg0;
 }
