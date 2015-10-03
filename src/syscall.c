@@ -3,8 +3,10 @@
 #include "stdint.h"
 #include "hw.h"
 
+/* Global definitions */
 uint64_t* stackHead;
 
+/* User side definitions */
 void sys_reboot()
 {
 	__asm("mov r0, %0" : : "r"(1)); // Fill r0 with the number of the syscall
@@ -24,6 +26,29 @@ void sys_settime(uint64_t date_ms)
 	__asm("swi 0" : : : "lr");
 }
 
+uint64_t sys_gettime()
+{
+	/* Local variable */
+	uint64_t reg0;
+	//~ uint64_t reg1;
+	//~ uint64_t time;
+	
+	/* Switch to interrupt mode */
+	__asm("mov r0, %0" : : "r"(4));
+	__asm("swi 0" : : : "lr");
+	
+	/* Get the result of do_sys_gettime() */
+	__asm("mov %0, r0" : "=r"(reg0));
+	//~ __asm("mov %0, r1" : "=r"(reg1));
+	//~ 
+	//~ /* Rebuild the result*/
+	//~ time = reg1 << 32;
+	//~ time += reg0;
+	
+	return reg0;
+}
+
+/* Handler definitions */
 void __attribute__((naked)) swi_handler()
 {
 
@@ -47,6 +72,9 @@ void __attribute__((naked)) swi_handler()
 		case 3 :
 			do_sys_settime();
 			break;
+		case 4 :
+			do_sys_gettime();
+			break;
 		default :	
 			PANIC();
 
@@ -56,6 +84,7 @@ void __attribute__((naked)) swi_handler()
 	
 }
 
+/* Kernel side implementation */
 void do_sys_nop()
 {
 	
@@ -82,4 +111,10 @@ void do_sys_settime()
 	uint64_t date_ms;
 	date_ms = *(stackHead + 1);
 	set_date_ms(date_ms);
+}
+
+void do_sys_gettime()
+{
+	uint64_t time = get_date_ms();
+	*stackHead = time;
 }
