@@ -1,2 +1,6 @@
 *.o
-./build
+kernel.list
+kernel.elf
+kmain.md5
+mapfile.map
+
