@@ -75,7 +75,14 @@ L'état de le pile change au cours de la fonction. La valeur de
 R1 est par exemple écrasée. C'est mauvais, car nous avons
 enregistré la valeur du sommet de la pile dans R1.
 
+ARRET A CETTE QUESTION !!
+
 Question 4-17 :
 
-
+ATTENTION, quand on veut stocker la variable date_ms pour settime,
+il est stocké "0x4000000010" au lieu de 0x10. Pouquoi donc ?
+C'est normal car notre date est codée sur 2 cases mémoires (une case
+mémoire = 32 bits et date_ms est un uint64_t). On n'avait pas
+vraiment explicité le format de date_ms envoyé dans sys_settime !
+En explicitant correctement uint64_t, ça fonctionne.
 
