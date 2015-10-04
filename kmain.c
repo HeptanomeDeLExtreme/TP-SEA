@@ -9,5 +9,4 @@ void kmain( void )
 	uint64_t heure = 16;
 	sys_settime(heure);
 	uint64_t actual = sys_gettime();
-	actual++;
 }
