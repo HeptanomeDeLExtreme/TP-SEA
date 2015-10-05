@@ -91,8 +91,8 @@ void do_sys_gettime(){
 	uint32_t date_lowbits = date_ms & (0x00000000FFFFFFFF);
   	uint32_t date_highbits = date_ms >> 32;
 
-	*(top_of_stack) = date_lowbits;
-	*(top_of_stack+1) = date_highbits;
+	*(top_of_stack+1) = date_lowbits;
+	*(top_of_stack+2) = date_highbits;
 
 }
 

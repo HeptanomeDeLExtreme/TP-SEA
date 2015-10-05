@@ -13,6 +13,8 @@ b *after_kmain
 b kernel_panic
 
 b *kmain
+b *swi_handler
+b *kernel_panic
 
 source utils.gdb
 
