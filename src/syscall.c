@@ -6,6 +6,43 @@
 /* Global definitions */
 uint64_t* stackHead;
 
+
+/* Handler definitions */
+void __attribute__((naked)) swi_handler()
+{
+
+	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
+	
+	// Mémoriser l'emplacement du sommet de la pile
+	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1"); // Les
+	// registres précieux sont R0 et R1.
+		
+	int interruptNumber;
+	__asm("mov %0, r0" : "=r"(interruptNumber) : : "r0");
+	
+	switch(interruptNumber)
+	{
+		case 1 :
+			do_sys_reboot();
+			break;	
+		case 2 :
+			do_sys_nop();
+			break;
+		case 3 :
+			do_sys_settime();
+			break;
+		case 4 :
+			do_sys_gettime();
+			break;
+		default :	
+			PANIC();
+
+	}
+	
+	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
+	
+}
+
 /* User side definitions */
 void sys_reboot()
 {
@@ -46,39 +83,8 @@ uint64_t sys_gettime()
 	return time;
 }
 
-/* Handler definitions */
-void __attribute__((naked)) swi_handler()
+void sys_yieldto(struct pcb_s* dest)
 {
-
-	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
-	
-	// Mémoriser l'emplacement du sommet de la pile
-	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1"); // Les
-	// registres précieux sont R0 et R1.
-		
-	int interruptNumber;
-	__asm("mov %0, r0" : "=r"(interruptNumber) : : "r0");
-	
-	switch(interruptNumber)
-	{
-		case 1 :
-			do_sys_reboot();
-			break;	
-		case 2 :
-			do_sys_nop();
-			break;
-		case 3 :
-			do_sys_settime();
-			break;
-		case 4 :
-			do_sys_gettime();
-			break;
-		default :	
-			PANIC();
-
-	}
-	
-	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
 	
 }
 
@@ -115,4 +121,9 @@ void do_sys_gettime()
 {
 	uint64_t time = get_date_ms();
 	*stackHead = time;
+}
+
+void do_sys_yieldto()
+{
+	
 }
