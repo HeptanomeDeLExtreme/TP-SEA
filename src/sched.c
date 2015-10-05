@@ -33,6 +33,8 @@ void do_sys_yieldto()
 	__asm("mov %0, r10" : : "r"(current_process->reg[10]));
 	__asm("mov %0, r11" : : "r"(current_process->reg[11]));
 	__asm("mov %0, r12" : : "r"(current_process->reg[12]));
+	// Sauver le mode avant le passage au mode SVC ! On ne sauve
+	// pas le mode SVC.
 	__asm("mrs r0, spsr");
 	__asm("mov %0, r0" : : "r"(current_process->user_status));
 	__asm("mov %0, lr" : : "r"(current_process->lr));
