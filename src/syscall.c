@@ -38,7 +38,7 @@ void __attribute__((naked)) swi_handler()
 			do_sys_gettime();
 			break;
 		case 5 :
-			PANIC();//do_sys_yieldto();
+			do_sys_yieldto();
 			break;
 		default :	
 			PANIC();
