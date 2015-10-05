@@ -71,11 +71,9 @@ dans R1, la valeur du paramètre date_ms.
 
 Question 4-16 :
 
-L'état de le pile change au cours de la fonction. La valeur de
+L'état de la pile change au cours de la fonction. La valeur de
 R1 est par exemple écrasée. C'est mauvais, car nous avons
 enregistré la valeur du sommet de la pile dans R1.
-
-ARRET A CETTE QUESTION !!
 
 Question 4-17 :
 
@@ -86,3 +84,7 @@ mémoire = 32 bits et date_ms est un uint64_t). On n'avait pas
 vraiment explicité le format de date_ms envoyé dans sys_settime !
 En explicitant correctement uint64_t, ça fonctionne.
 
+Question 4-18 : OK
+Question 4-19 : OK
+Question 4-20 : OK
+Question 4-21 : OK
