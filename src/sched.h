@@ -3,16 +3,7 @@
 
 #include "stdint.h"
 
-#define NUMBER_REGISTER 12;
-
-/* Scheduling */
-void sched_init();
-
-/* User Side*/
-void sys_yieldto(struct pcb_s* dest);
-
-/* Kernel Side */
-void do_sys_yieldto();
+#define NUMBER_REGISTER 12
 
 /* Structure definitions */
 struct pcb_s {
@@ -23,6 +14,13 @@ struct pcb_s {
 	uint32_t cpsr;
 };
 
+/* Scheduling */
+void sched_init();
 
+/* User Side*/
+void sys_yieldto(struct pcb_s* dest);
+
+/* Kernel Side */
+void do_sys_yieldto();
 
 #endif

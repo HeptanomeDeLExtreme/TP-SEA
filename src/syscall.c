@@ -141,4 +141,3 @@ void do_sys_gettime()
 	uint64_t time = get_date_ms();
 	*stackHead = time;
 }
-

@@ -1,4 +1,5 @@
 #include "stdint.h"
+#include "sched.h"
 
 extern uint64_t* stackHead;
 struct pcb_s* current_process;
@@ -32,7 +33,7 @@ void do_sys_yieldto()
 	__asm("mov %0, r10" : : "r"(current_process->reg[10]));
 	__asm("mov %0, r11" : : "r"(current_process->reg[11]));
 	__asm("mov %0, r12" : : "r"(current_process->reg[12]));
-	__asm("mov %0, cpsr" : : "r"(current_process->cpsr));
+	//__asm("mov %0, cpsr" : : "r"(current_process->cpsr));
 	__asm("mov %0, lr" : : "r"(current_process->lr));
 	__asm("mov %0, pc" : : "r"(current_process->pc));
 	__asm("mov %0, sp" : : "r"(current_process->sp));
@@ -42,7 +43,7 @@ void do_sys_yieldto()
 	dest = *(stackHead + 1);
 	
 	// Charger le PCB du prochain process
-	__asm("mov r0, %0" : : "r"(dest->reg[0]);
+	__asm("mov r0, %0" : : "r"(dest->reg[0]));
 	__asm("mov r1, %0" : : "r"(dest->reg[1]));
 	__asm("mov r2, %0" : : "r"(dest->reg[2]));
 	__asm("mov r3, %0" : : "r"(dest->reg[3]));
