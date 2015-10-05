@@ -1,5 +1,8 @@
 #include "stdint.h"
 
+uint32_t* top_of_stack;
+enum numAppel{REBOOT,NOP,SETTIME,GETTIME,YIELDTO};
+
 void sys_reboot();
 
 void swi_handler();

@@ -2,8 +2,7 @@
 #include "util.h"
 #include "stdint.h"
 #include "hw.h"
-
-uint32_t* top_of_stack;
+#include "sched.h"
 
 //Main
 void 
@@ -14,25 +13,33 @@ swi_handler(){
 	__asm("mov %0, sp" : "=r"(top_of_stack): :"sp");
 
 	//Récupération du numéro d'appel système
-	int numAppel;
-	__asm("mov %0, r0" : "=r"(numAppel): :"r0");
+	enum numAppel monAppel;
+	__asm("mov %0, r0" : "=r"(monAppel): :"r0");
 
-	if(numAppel == '1'){
-		do_sys_reboot();
-	}
-	else if(numAppel == '2'){
-		do_sys_nop();
-	}
+	switch(monAppel){
+		case REBOOT :
+			do_sys_reboot();
+		break;
 
-	else if(numAppel == '3'){
-		do_sys_settime();
-	}
+		case NOP :
+			do_sys_nop();
+		break;
 
-	else if(numAppel == '4'){
-		do_sys_gettime();
-	}
-	else{
-		PANIC();
+		case SETTIME :
+			do_sys_settime();
+		break;
+
+		case GETTIME :
+			do_sys_gettime();
+		break;
+
+		case YIELDTO :
+			do_sys_yieldto();
+		break;
+
+		default :
+			PANIC();
+		break;
 	}
 
 	//Restauration de contexte maggle
@@ -40,12 +47,12 @@ swi_handler(){
 }
 
 void sys_reboot(){
-	__asm("mov r0, %0" : : "r"('1') : "r0");
+	__asm("mov r0, %0" : : "r"(REBOOT) : "r0");
 	__asm("SWI #0");
 }
 
 void sys_nop(){
-	__asm("mov r0, %0" : : "r"('2') : "r0");
+	__asm("mov r0, %0" : : "r"(NOP) : "r0");
 	__asm("SWI #0");
 }
 
@@ -53,14 +60,14 @@ void sys_settime(uint64_t date_ms){
 
 	uint32_t date_lowbits = date_ms & (0x00000000FFFFFFFF);
   	uint32_t date_highbits = date_ms >> 32;
-	__asm("mov r0, %0" : : "r"('3') : "r0");
+	__asm("mov r0, %0" : : "r"(SETTIME) : "r0");
 	__asm("mov r1, %0" : : "r"(date_lowbits) : "r1");
 	__asm("mov r2, %0" : : "r"(date_highbits) : "r2");
 	__asm("SWI #0");
 }
 
 uint64_t sys_gettime(){
-	__asm("mov r0, %0" : : "r"('4') : "r0");
+	__asm("mov r0, %0" : : "r"(GETTIME) : "r0");
 	__asm("SWI #0");
 	uint32_t date_lowbits;
   	uint64_t date_highbits;
