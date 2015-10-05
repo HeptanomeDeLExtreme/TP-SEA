@@ -34,6 +34,8 @@ void do_sys_yieldto()
 	__asm("mov %0, r11" : : "r"(current_process->reg[11]));
 	__asm("mov %0, r12" : : "r"(current_process->reg[12]));
 	//~ __asm("mov %0, cpsr" : : "r"(current_process->cpsr));
+	__asm("mrs r0, spsr");
+	__asm("mov %0, r0" : : "r"(current_process->user_status));
 	__asm("mov %0, lr" : : "r"(current_process->lr));
 	__asm("mov %0, pc" : : "r"(current_process->pc));
 	__asm("mov %0, sp" : : "r"(current_process->sp));
@@ -57,6 +59,8 @@ void do_sys_yieldto()
 	__asm("mov r11, %0" : : "r"(dest->reg[11]));
 	__asm("mov r12, %0" : : "r"(dest->reg[12]));
 	//~ __asm("mov cpsr, %0" : : "r"(dest->cpsr));
+	__asm("mov r0, %0" : : "r"(dest->user_status));
+	__asm("msr spsr, r0");
 	__asm("mov lr, %0" : : "r"(dest->lr));
 	__asm("mov pc, %0" : : "r"(dest->pc));
 	__asm("mov sp, %0" : : "r"(dest->sp));
