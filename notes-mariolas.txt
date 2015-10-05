@@ -206,3 +206,46 @@ Pour régler ce problème on utilise l'attribut "tout nu" sur le handler !
 ================================================================================
 
 Exo terminé, tous les tests sont OK.
+
+================================================================================
+
+Q 4-14 à 4-xx :
+
+Q4-15 : Pendant l'exec de do_sys_settime, notre paramètre est en tête de pile.
+(Emlpilé par le handler, on ne fait que gérer les modes processeur).
+
+Q4-16 : Les param sont dans r1 et r2 donc ils sont sauvegardés dans la pile.
+On peut accéder aux registres sauvegardés dans la pile.
+Mais la pile est modifiée pendant l'appel, donc il faut la sauvegarder en même
+temps que le reste du contexte... 
+
+
+Q4-17 : ... pour ce faire, on sauvegarde la valeur de sp et on
+la stocke dans la globale top_of_stack. On utilisera cette variable pour
+passer des paramètres à toutes les fonctions.
+
+Problème : uint64 pour un proc 32 bits, à sauver dans 2 reg, et à
+reconstruire ensuite (en récupérant les reg sauvés dans la pile,
+grâce au sp sauvegardé dans le handler ...). Ça passe !
+
+Q4-18 : Test du truc précédent.
+Découpage ok. Sauvegarde de contexte ok. Reconstruction ok.
+
+Q4-19 :
+Ça passe ! Erreur corrigée : dans une case il y a 32 bits soit 8 carac hexa.
+
+================================================================================
+
+Q4-20/21 :
+
+Plutôt que passer les paramètres en registres, on y passe la valeur retour.
+On utilise r0 et r1.
+Test ok !
+
+================================================================================
+================================================================================
+
+CHAPITRE 5 :
+================================================================================
+
+Q5-1
