@@ -5,7 +5,7 @@
 #include "sched.h"
 
 /* Global definitions */
-uint64_t* stackHead;
+uint32_t* stackHead;
 
 
 /* Handler definitions */
@@ -15,8 +15,10 @@ void __attribute__((naked)) swi_handler()
 	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
 	
 	// Mémoriser l'emplacement du sommet de la pile
-	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1"); // Les
+	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1", "r2"); // Les
 	// registres précieux sont R0 et R1.
+	// R1 et R2 car date_ms codé sur 64 bits, cela prend les registres
+	// R1 et R2.
 		
 	int interruptNumber;
 	__asm("mov %0, r0" : "=r"(interruptNumber) : : "r0");
@@ -36,7 +38,7 @@ void __attribute__((naked)) swi_handler()
 			do_sys_gettime();
 			break;
 		case 5 :
-			do_sys_yieldto();
+			PANIC();//do_sys_yieldto();
 			break;
 		default :	
 			PANIC();
@@ -62,8 +64,15 @@ void sys_nop()
 
 void sys_settime(uint64_t date_ms)
 {
+	uint32_t low;
+	uint32_t high;
+	
+	low = date_ms;
+	high = date_ms >> 32;
+	
 	__asm("mov r0, %0" : : "r"(3));
-	__asm("mov r1, %0" : : "r"(date_ms));
+	__asm("mov r1, %0" : : "r"(low));
+	__asm("mov r2, %0" : : "r"(high));
 	__asm("swi 0" : : : "lr");
 }
 
@@ -112,7 +121,18 @@ void do_sys_settime()
 	// Récupérer le premier paramètre après le stackHead
 	// qui représente le paramètre passé à la fonction sys_settime()
 	uint64_t date_ms;
-	date_ms = *(stackHead + 1);
+	uint32_t low;
+	uint32_t high;
+	uint64_t temp;
+	
+	low = *(stackHead + 1);
+	high = *(stackHead + 2);
+
+	temp = high;
+	
+	date_ms = temp << 32;
+	date_ms += low;
+	
 	set_date_ms(date_ms);
 }
 

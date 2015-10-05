@@ -33,6 +33,7 @@ void kmain(void)
 	p2=&pcb2;
 	// initialize p1 and p2//
 	// [ ton code va la ]
+	
 	__asm("cps 0x10");
 	// switch CPU to USER mode//
 	// **********************************************************************

@@ -5,10 +5,13 @@
 
 #define NUMBER_REGISTER 12;
 
+/* Scheduling */
+void sched_init();
+
 /* User Side*/
 void sys_yieldto(struct pcb_s* dest);
 
-/* Kerner Side */
+/* Kernel Side */
 void do_sys_yieldto();
 
 /* Structure definitions */
