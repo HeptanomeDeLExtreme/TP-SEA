@@ -34,8 +34,8 @@ void kmain(void)
 	// initialize p1 and p2//
 	// [ ton code va la ]
 	
-	p1->lr = &p1;
-	p2 ->lr = &p2;
+	p1->lr = 0x94fc;
+	p2 ->lr = 0x9530;
 	
 	__asm("cps 0x10");
 	// switch CPU to USER mode//

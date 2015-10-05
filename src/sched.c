@@ -14,6 +14,7 @@ void sys_yieldto(struct pcb_s* dest)
 {
 	/* Switch to interrupt mode */
 	__asm("mov r0, %0" : : "r"(5));
+	__asm("mov r1, %0" : : "r"(dest));
 	__asm("swi 0" : : : "lr");
 }
 
@@ -62,7 +63,7 @@ void do_sys_yieldto()
 	__asm("mov r0, %0" : : "r"(dest->user_status));
 	__asm("msr spsr, r0");
 	__asm("mov lr, %0" : : "r"(dest->lr));
-	__asm("mov pc, %0" : : "r"(dest->pc));
+	//~ __asm("mov pc, %0" : : "r"(dest->pc));
 	__asm("mov sp, %0" : : "r"(dest->sp));
 	//~ 
 	current_process = dest;
