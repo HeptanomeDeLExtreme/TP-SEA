@@ -2,6 +2,7 @@
 #include "util.h"
 #include "stdint.h"
 #include "hw.h"
+#include "sched.h"
 
 /* Global definitions */
 uint64_t* stackHead;
@@ -33,6 +34,9 @@ void __attribute__((naked)) swi_handler()
 			break;
 		case 4 :
 			do_sys_gettime();
+			break;
+		case 5 :
+			do_sys_yieldto();
 			break;
 		default :	
 			PANIC();
@@ -83,11 +87,6 @@ uint64_t sys_gettime()
 	return time;
 }
 
-void sys_yieldto(struct pcb_s* dest)
-{
-	
-}
-
 /* Kernel side implementation */
 void do_sys_nop()
 {
@@ -123,7 +122,3 @@ void do_sys_gettime()
 	*stackHead = time;
 }
 
-void do_sys_yieldto()
-{
-	
-}
