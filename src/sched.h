@@ -3,7 +3,10 @@
 
 #include "stdint.h"
 
-#define NUMBER_REGISTER 12
+#define NUMBER_REGISTER 13
+#define OFFSET_R0 1 // in order to have R0
+#define OFFSET_R1 2 // in order to have R1
+#define OFFSET_R2 3 // in order to have R2
 
 /* Structure definitions */
 struct pcb_s {

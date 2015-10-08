@@ -11,11 +11,12 @@ uint32_t* stackHead;
 /* Handler definitions */
 void __attribute__((naked)) swi_handler()
 {
-
-	__asm("stmfd sp!,{r0-r12,sp,lr}"); // Save the user register
+	__asm("stmfd sp!,{pc}");
+	__asm("stmfd sp!,{sp,lr}"); // Save the user register
+	__asm("stmfd sp!,{r0-r12}"); // Save the user register
 	// Récupérer le registre de statut et le placer en fin de pile
 	__asm("mrs r3, CPSR");
-	__asm("stmfd sp!,{r3,pc}"); 
+	__asm("stmfd sp!,{r3}"); 
 	
 	// Mémoriser l'emplacement du sommet de la pile
 	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1", "r2"); // Les
@@ -47,8 +48,10 @@ void __attribute__((naked)) swi_handler()
 			PANIC();
 
 	}
+	
+	__asm("ldmfd sp!, {r3}");
+	__asm("msr cpsr,r3");
 	__asm("ldmfd sp!, {r0-r12,sp,lr}"); // Restore the user register
-	// Récupérer R3
 	__asm("ldmfd sp!, {pc}^"); // Restore the user register
 	
 }
@@ -129,8 +132,8 @@ void do_sys_settime()
 	uint32_t high;
 	uint64_t temp;
 	
-	low = *(stackHead + 1);
-	high = *(stackHead + 2);
+	low = *(stackHead + OFFSET_R1);
+	high = *(stackHead + OFFSET_R2);
 
 	temp = high;
 	
@@ -143,5 +146,5 @@ void do_sys_settime()
 void do_sys_gettime()
 {
 	uint64_t time = get_date_ms();
-	*stackHead = time;
+	*(stackHead + OFFSET_R0 ) = time;
 }
