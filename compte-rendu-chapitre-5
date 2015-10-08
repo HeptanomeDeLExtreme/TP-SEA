@@ -2,4 +2,15 @@ Chapitre 5 : Process dispatching
 
 Exercice : un dispatcher pour coroutines
 
-Question 5-1 :
+Question 5-1 : OK
+Question 5-2 : OK
+Question 5-3 : OK
+Question 5-4 : OK
+
+Question 5-5 :
+
+p1 -> lr = 0x9500;
+p2 -> lr = 0x9534;
+
+p1 = 0x968C;
+p2 = 0x9644;

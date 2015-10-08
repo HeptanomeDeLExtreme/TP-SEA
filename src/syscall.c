@@ -12,7 +12,10 @@ uint32_t* stackHead;
 void __attribute__((naked)) swi_handler()
 {
 
-	__asm("stmfd sp!,{r0-r12,lr}"); // Save the user register
+	__asm("stmfd sp!,{r0-r12,sp,lr}"); // Save the user register
+	// Récupérer le registre de statut et le placer en fin de pile
+	__asm("mrs r3, CPSR");
+	__asm("stmfd sp!,{r3,pc}"); 
 	
 	// Mémoriser l'emplacement du sommet de la pile
 	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1", "r2"); // Les
@@ -44,8 +47,9 @@ void __attribute__((naked)) swi_handler()
 			PANIC();
 
 	}
-	
-	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
+	__asm("ldmfd sp!, {r0-r12,sp,lr}"); // Restore the user register
+	// Récupérer R3
+	__asm("ldmfd sp!, {pc}^"); // Restore the user register
 	
 }
 

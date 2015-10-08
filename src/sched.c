@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "sched.h"
 
-extern uint64_t* stackHead;
+extern uint32_t* stackHead;
 struct pcb_s* current_process;
 struct pcb_s kmain_process;
 
@@ -20,51 +20,34 @@ void sys_yieldto(struct pcb_s* dest)
 
 void do_sys_yieldto()
 {
-	// Sauver le PCB actuel
-	__asm("mov %0, r0" : : "r"(current_process->reg[0]));
-	__asm("mov %0, r1" : : "r"(current_process->reg[1]));
-	__asm("mov %0, r2" : : "r"(current_process->reg[2]));
-	__asm("mov %0, r3" : : "r"(current_process->reg[3]));
-	__asm("mov %0, r4" : : "r"(current_process->reg[4]));
-	__asm("mov %0, r5" : : "r"(current_process->reg[5]));
-	__asm("mov %0, r6" : : "r"(current_process->reg[6]));
-	__asm("mov %0, r7" : : "r"(current_process->reg[7]));
-	__asm("mov %0, r8" : : "r"(current_process->reg[8]));
-	__asm("mov %0, r9" : : "r"(current_process->reg[9]));
-	__asm("mov %0, r10" : : "r"(current_process->reg[10]));
-	__asm("mov %0, r11" : : "r"(current_process->reg[11]));
-	__asm("mov %0, r12" : : "r"(current_process->reg[12]));
-	// Sauver le mode avant le passage au mode SVC ! On ne sauve
-	// pas le mode SVC.
-	__asm("mrs r0, spsr");
-	__asm("mov %0, r0" : : "r"(current_process->user_status));
-	__asm("mov %0, lr" : : "r"(current_process->lr));
-	__asm("mov %0, pc" : : "r"(current_process->pc));
-	__asm("mov %0, sp" : : "r"(current_process->sp));
-	
-	// Le prochain process
+	// Prochain process
 	struct pcb_s* dest;
 	dest = *(stackHead + 1);
-	//~ 
-	//~ // Charger le PCB du prochain process
-	__asm("mov r0, %0" : : "r"(dest->reg[0]));
-	__asm("mov r1, %0" : : "r"(dest->reg[1]));
-	__asm("mov r2, %0" : : "r"(dest->reg[2]));
-	__asm("mov r3, %0" : : "r"(dest->reg[3]));
-	__asm("mov r4, %0" : : "r"(dest->reg[4]));
-	__asm("mov r5, %0" : : "r"(dest->reg[5]));
-	__asm("mov r6, %0" : : "r"(dest->reg[6]));
-	__asm("mov r7, %0" : : "r"(dest->reg[7]));
-	__asm("mov r8, %0" : : "r"(dest->reg[8]));
-	__asm("mov r9, %0" : : "r"(dest->reg[9]));
-	__asm("mov r10, %0" : : "r"(dest->reg[10]));
-	__asm("mov r11, %0" : : "r"(dest->reg[11]));
-	__asm("mov r12, %0" : : "r"(dest->reg[12]));
-	__asm("mov r0, %0" : : "r"(dest->user_status));
-	__asm("msr spsr, r0");
-	__asm("mov lr, %0" : : "r"(dest->lr));
-	//~ __asm("mov pc, %0" : : "r"(dest->pc));
-	__asm("mov sp, %0" : : "r"(dest->sp));
-	//~ 
+		
+	// On prend l'adresse présente dans *(StackHead + 1) qui représente
+	// l'adresse mémoire où est stockée la sauvegarde des registres
+	// du process où on souhaite se rendre
+	uint32_t * src = stackHead;
+	for(int i = 0; i<13 ;i++)
+	{
+		current_process->reg[i] = *(src++);
+	}
+	current_process->sp = *(src++);
+	current_process->lr = *(src++);
+	current_process->pc = *(src++);
+	current_process->user_status = *(src++);
+	
+	// On change de process : current = destination
 	current_process = dest;
+	
+	// On prend ce qu'il y a dans dest pcb et on le met dans StackHead
+	src = stackHead;
+	for(int i = 0; i<13 ;i++)
+	{
+		*(src++) = dest->reg[i];;
+	}
+	*(src++) = dest->sp;
+	*(src++) = dest->lr;
+	*(src++) = dest->pc;
+	*(src++) = dest->user_status;
 }
