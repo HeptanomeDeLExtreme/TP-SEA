@@ -1,6 +1,10 @@
 #include "sched.h"
 #include "syscall.h"
 
+void sched_init(){
+	current_process = &kmain_process;
+}
+
 void sys_yieldto(struct pcb_s* dest){
 	__asm("mov r0, %0" : : "r"(YIELDTO) : "r0");
 	__asm("mov r1, %0" : : "r"(dest) : "r1");
@@ -8,43 +12,38 @@ void sys_yieldto(struct pcb_s* dest){
 }
 
 void do_sys_yieldto(){
-	__asm("mov %0, r0" : "=r"(current_process.reg0): :"r0");
-	__asm("mov %0, r1" : "=r"(current_process.reg1): :"r1");
-	__asm("mov %0, r2" : "=r"(current_process.reg2): :"r2");
-	__asm("mov %0, r3" : "=r"(current_process.reg3): :"r3");
-	__asm("mov %0, r4" : "=r"(current_process.reg4): :"r4");
-	__asm("mov %0, r5" : "=r"(current_process.reg5): :"r5");
-	__asm("mov %0, r6" : "=r"(current_process.reg6): :"r6");
-	__asm("mov %0, r7" : "=r"(current_process.reg7): :"r7");
-	__asm("mov %0, r8" : "=r"(current_process.reg8): :"r8");
-	__asm("mov %0, r9" : "=r"(current_process.reg9): :"r9");
-	__asm("mov %0, r10" : "=r"(current_process.reg10): :"r10");
-	__asm("mov %0, r11" : "=r"(current_process.reg11): :"r11");
-	__asm("mov %0, r12" : "=r"(current_process.reg12): :"r12");
-	__asm("mov %0, r13" : "=r"(current_process.reg13): :"r13");
-	__asm("mov %0, r14" : "=r"(current_process.reg14): :"r14");
-	__asm("mov %0, pc" : "=r"(current_process.regPC): :"pc");
-	__asm("mov %0, cpsr" : "=r"(current_process.regCPSR): :"cpsr");
+	int i=0;
 
-	pcb_s* dest = *(top_of_stack+1);
-
-	__asm("mov r0, %0" : : "r"(dest.reg0) : "r0");
-	__asm("mov r1, %0" : : "r"(dest.reg1) : "r1");
-	__asm("mov r2, %0" : : "r"(dest.reg2) : "r2");
-	__asm("mov r3, %0" : : "r"(dest.reg3) : "r3");
-	__asm("mov r4, %0" : : "r"(dest.reg4) : "r4");
-	__asm("mov r5, %0" : : "r"(dest.reg5) : "r5");
-	__asm("mov r6, %0" : : "r"(dest.reg6) : "r6");
-	__asm("mov r7, %0" : : "r"(dest.reg7) : "r7");
-	__asm("mov r8, %0" : : "r"(dest.reg8) : "r8");
-	__asm("mov r9, %0" : : "r"(dest.reg9) : "r9");
-	__asm("mov r10, %0" : : "r"(dest.reg10) : "r10");
-	__asm("mov r11, %0" : : "r"(dest.reg11) : "r11");
-	__asm("mov r12, %0" : : "r"(dest.reg12) : "r12");
-	__asm("mov r13, %0" : : "r"(dest.reg13) : "r13");
-	__asm("mov r14, %0" : : "r"(dest.reg14) : "r14");
-	__asm("mov pc, %0" : : "r"(dest.regPC) : "pc");
-	__asm("mov cpsr, %0" : : "r"(dest.regCPSR) : "cpsr");
+	//Sauvegarde du contexte utilisateur mis dans la pile par le handler
+	for(i=0 ; i < 13 ; i++){
+		current_process->reg[i]=*(top_of_stack + i);
+	}
+	
+	/* The particular case of lr_svc */
+	current_process->lr_svc=*(top_of_stack + 13);
+	/* The particular case of spsr */
+	__asm("mrs r0, SPSR");
+	__asm("mov %0, r0" : "=r"(current_process->cpsr): :"r0");
 
 
+	//The particular case of lr_user
+	//Passer en mode system
+	__asm("cps 0b11111");
+	__asm("mov lr, %0" : : "r"(current_process->lr_user) : "lr");
+
+	//Passer en mode SVC
+	__asm("cps 0b10011");
+
+
+	//Restauration du contexte utilisateur dans la pile
+	struct pcb_s* dest = (void*) *(top_of_stack+1);
+	current_process = dest;
+
+	int j=0;
+	for(j=0 ; j < 13 ; j++){
+		*(top_of_stack+j)=dest->reg[j];
+	}
+	__asm("mov r0, %0" : : "r"(current_process->cpsr) : "r0");
+	__asm("msr SPSR, r0");
+	*(top_of_stack + 13) = current_process->lr_svc;
 }
