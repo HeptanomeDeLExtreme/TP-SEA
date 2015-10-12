@@ -48,7 +48,7 @@ LOAD build/kmain.o
                 0x00000000000082c4                kAlloc
                 0x00000000000083b0                kFree
                 0x00000000000083f8                kheap_init
- .text          0x0000000000008424      0x21c build/syscall.o
+ .text          0x0000000000008424      0x218 build/syscall.o
                 0x0000000000008424                swi_handler
                 0x00000000000084a0                sys_reboot
                 0x00000000000084b4                sys_nop
@@ -58,32 +58,32 @@ LOAD build/kmain.o
                 0x000000000000858c                do_sys_reboot
                 0x0000000000008598                do_sys_settime
                 0x0000000000008610                do_sys_gettime
- .text          0x0000000000008640      0x3a4 build/hw.o
-                0x0000000000008640                divide
-                0x00000000000086a8                get_date_ms
-                0x00000000000086cc                set_date_ms
-                0x0000000000008764                set_next_tick
-                0x00000000000087bc                set_next_tick_default
-                0x0000000000008808                timer_init
-                0x0000000000008834                led_on
-                0x0000000000008870                led_off
-                0x00000000000088ac                led_switch
-                0x00000000000088d8                led_status
-                0x00000000000088ec                led_init
-                0x0000000000008920                led_blink
-                0x00000000000089b4                hw_init
-                0x00000000000089c4                terminate_kernel
- .text          0x00000000000089e4      0x658 build/uart.o
-                0x00000000000089e4                uart_init
-                0x0000000000008b00                uart_send_str
-                0x0000000000008b94                uart_send_int
-                0x0000000000008d84                uart_receive_str
-                0x0000000000008e60                uart_receive_int
-                0x0000000000009008                uart_is_receive_fifo_empty
- .text          0x000000000000903c      0x18c build/sched.o
-                0x000000000000903c                sched_init
-                0x0000000000009054                sys_yieldto
-                0x000000000000907c                do_sys_yieldto
+ .text          0x000000000000863c      0x3a4 build/hw.o
+                0x000000000000863c                divide
+                0x00000000000086a4                get_date_ms
+                0x00000000000086c8                set_date_ms
+                0x0000000000008760                set_next_tick
+                0x00000000000087b8                set_next_tick_default
+                0x0000000000008804                timer_init
+                0x0000000000008830                led_on
+                0x000000000000886c                led_off
+                0x00000000000088a8                led_switch
+                0x00000000000088d4                led_status
+                0x00000000000088e8                led_init
+                0x000000000000891c                led_blink
+                0x00000000000089b0                hw_init
+                0x00000000000089c0                terminate_kernel
+ .text          0x00000000000089e0      0x658 build/uart.o
+                0x00000000000089e0                uart_init
+                0x0000000000008afc                uart_send_str
+                0x0000000000008b90                uart_send_int
+                0x0000000000008d80                uart_receive_str
+                0x0000000000008e5c                uart_receive_int
+                0x0000000000009004                uart_is_receive_fifo_empty
+ .text          0x0000000000009038      0x190 build/sched.o
+                0x0000000000009038                sched_init
+                0x0000000000009050                sys_yieldto
+                0x0000000000009078                do_sys_yieldto
  .text          0x00000000000091c8      0x224 build/pwm.o
                 0x0000000000009360                audio_test
  .text          0x00000000000093ec       0x48 build/asm_tools.o

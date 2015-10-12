@@ -22,7 +22,7 @@ void do_sys_yieldto()
 {
 	// Prochain process
 	struct pcb_s* dest;
-	dest = stackHead + OFFSET_R1;
+	dest = *(stackHead + OFFSET_R1);
 		
 	// On prend l'adresse présente dans *(StackHead + 1) qui représente
 	// l'adresse mémoire où est stockée la sauvegarde des registres
