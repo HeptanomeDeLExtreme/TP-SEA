@@ -22,7 +22,7 @@ void do_sys_yieldto()
 {
 	// Prochain process
 	struct pcb_s* dest;
-	dest = *(stackHead + OFFSET_R1);
+	dest = (struct pcb_s*)*(stackHead + OFFSET_R1);
 		
 	// On prend l'adresse présente dans *(StackHead + 1) qui représente
 	// l'adresse mémoire où est stockée la sauvegarde des registres
@@ -47,10 +47,10 @@ void do_sys_yieldto()
 	current_process = dest;
 	
 	__asm("cps 0x1F"); // system
-	__asm("mov lr,%0" : :  "r"(dest->lr_user));
+	__asm("mov lr,%0" : :  "r"(current_process->lr_user));
 	__asm("cps 0x13"); // SVC
 
-	__asm("mov r3,%0" : : "r"(dest->user_status));
+	__asm("mov r3,%0" : : "r"(current_process->user_status));
 	__asm("msr spsr,r3");
 	
 	src = stackHead;
