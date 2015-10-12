@@ -11,12 +11,7 @@ uint32_t* stackHead;
 /* Handler definitions */
 void __attribute__((naked)) swi_handler()
 {
-	__asm("stmfd sp!,{pc}");
-	__asm("stmfd sp!,{sp,lr}"); // Save the user register
-	__asm("stmfd sp!,{r0-r12}"); // Save the user register
-	// Récupérer le registre de statut et le placer en fin de pile
-	__asm("mrs r3, CPSR");
-	__asm("stmfd sp!,{r3}"); 
+	__asm("stmfd sp!,{r0-r12, lr}"); // Save the user register
 	
 	// Mémoriser l'emplacement du sommet de la pile
 	__asm("mov %0, sp" : "=r"(stackHead) : : "r0", "r1", "r2"); // Les
@@ -49,10 +44,7 @@ void __attribute__((naked)) swi_handler()
 
 	}
 	
-	__asm("ldmfd sp!, {r3}");
-	__asm("msr cpsr,r3");
-	__asm("ldmfd sp!, {r0-r12,sp,lr}"); // Restore the user register
-	__asm("ldmfd sp!, {pc}^"); // Restore the user register
+	__asm("ldmfd sp!, {r0-r12,pc}"); // Restore the user register
 	
 }
 

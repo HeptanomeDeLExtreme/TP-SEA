@@ -27,29 +27,38 @@ void do_sys_yieldto()
 	// On prend l'adresse présente dans *(StackHead + 1) qui représente
 	// l'adresse mémoire où est stockée la sauvegarde des registres
 	// du process où on souhaite se rendre
-	uint32_t * src = stackHead;
-	current_process->user_status = *(src++);
-	for(int i = 0; i<14 ;i++)
-	{
-		current_process->reg[i] = *(src++);
-	}
-	src--; // to compensate something
-	current_process->sp = *(src++);
-	current_process->lr = *(src++);
-	current_process->pc = *(src++);
 	
+	uint32_t * src = stackHead;
+	for(int i = 0; i<13 ;i++)
+	{
+		current_process->reg[i] = *(src+i);
+	}
+	current_process->lr_svc = *(src+13);
+	
+	// Récupérer le registre de statut et le placer en fin de pile
+	__asm("mrs r3, SPSR");
+	__asm("mov %0,r3" : "=r"(current_process->user_status)); 
+
+	__asm("cps 0x1F"); // system
+	__asm("mov %0,lr" : "=r"(current_process->lr_user));
+	__asm("cps 0x13"); // SVC
+
 	// On change de process : current = destination
 	current_process = dest;
 	
-	// On prend ce qu'il y a dans dest pcb et on le met dans StackHead
+	__asm("cps 0x1F"); // system
+	__asm("mov lr,%0" : :  "r"(dest->lr_user));
+	__asm("cps 0x13"); // SVC
+
+	__asm("mov r3,%0" : : "r"(dest->user_status));
+	__asm("msr spsr,r3");
+	
 	src = stackHead;
-	*(src++) = dest->user_status;
-	for(int i = 0; i<14 ;i++)
+	// On prend ce qu'il y a dans dest pcb et on le met dans StackHead
+	for(int i = 0; i<13 ;i++)
 	{
-		*(src++) = dest->reg[i];;
+		*(src+i) = dest->reg[i];;
 	}
-	*(src++) = dest->sp;
-	*(src++) = dest->lr;
-	*(src++) = dest->pc;
+	*(src+13) = dest->lr_svc;
 
 }
