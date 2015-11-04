@@ -44,7 +44,7 @@ void __attribute__((naked)) swi_handler()
 
 	}
 	
-	__asm("ldmfd sp!, {r0-r12,pc}"); // Restore the user register
+	__asm("ldmfd sp!, {r0-r12,pc}^"); // Restore the user register
 	
 }
 

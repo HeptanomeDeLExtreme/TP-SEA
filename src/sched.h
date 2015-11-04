@@ -14,6 +14,7 @@ struct pcb_s {
 	uint32_t lr_svc;
 	uint32_t lr_user;
 	uint32_t user_status;
+	uint32_t sp;
 };
 
 /* Scheduling */
