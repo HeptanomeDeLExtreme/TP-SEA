@@ -1,6 +1,8 @@
 #include "util.h"
 #include "syscall.h"
 #include "sched.h"
+#include "hw.h"
+#include "config.h"
 
 struct pcb_s *p1, *p2;
 

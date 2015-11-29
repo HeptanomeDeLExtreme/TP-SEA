@@ -9,13 +9,27 @@ commands
   continue 
 end
 
+
+
+
 break *get_date_ms
 commands
   print $pc
   continue
 end
 
+break syscall.c:223
+commands
+  print/x *((unsigned int*) $sp)@16
+  continue
+end
 
+
+break syscall.c:135
+commands
+  print/x date_ms
+  continue
+end
 
 break kmain-gettime.c:12
 commands

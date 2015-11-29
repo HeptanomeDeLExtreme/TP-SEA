@@ -3,13 +3,14 @@
 set verbose off
 set confirm off
 
-break *(sys_settime+12)
+break *(sys_settime+4)
 commands
   printf "bla\n"
   print/x date_ms
   printf "bla\n"
   continue 
 end
+
 
 break set_date_ms
 commands
