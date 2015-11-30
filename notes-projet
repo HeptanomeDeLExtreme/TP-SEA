@@ -1,0 +1,15 @@
+Question 9-1 :
+Taille d'une page : 4 Ko
+Nombre d'entree d'une table de niveau 2 : 8
+Taille d'une table de niveau 2 : 256
+Nombre d'entree d'une table de niveau 1 : 5
+Taille d'une table de niveau 1 : 4096
+
+Question 9-2 : 
+xxxxxxxxxxxxxxxxxxxx010001110010
+
+Question 9-3 :
+uint32_t device_flags = 010000110111;
+
+Question 9-4 :
+pwr_of_2 = 14 car 14 bits non utilisés.
