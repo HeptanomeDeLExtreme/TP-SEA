@@ -4,6 +4,7 @@
 #include "sched.h"
 #include "hw.h"
 #include "asm_tools.h"
+#include "pwm.h"
 
 
 #define NB_PROCESS 5
@@ -17,8 +18,8 @@ int div(int dividend, int divisor)
 {
 	int result = 0;
 	int remainder = dividend;
-	
-	while(remainder >= divisor) 
+
+	while(remainder >= divisor)
 	{
 		result++;
 		remainder -= divisor;
@@ -146,6 +147,7 @@ int kmain (void)
     create_process((func_t*)&user_process_3);
 
     timer_init();
+    while(1) audio_test();
     ENABLE_IRQ();
 
 

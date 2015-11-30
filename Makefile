@@ -8,7 +8,7 @@ all: kernel_for_qemu kernel_for_sdcard
 
 kernel_for_qemu: build/kernel.elf build/kernel.list
 
-kernel_for_sdcard: kernel_for_qemu build/kernel.img 
+kernel_for_sdcard: kernel_for_qemu build/kernel.img
 
 remake: clean all
 
@@ -21,7 +21,7 @@ COMMON_FLAGS=-mcpu=arm1176jzf-s
 # Object files (excluding kmain)
 OBJECTS=$(addsuffix .o,  $(addprefix build/, $(basename $(notdir $(wildcard src/*.[cs])))))
 
-# non-default usage: "make KMAIN=test/my-kmain.c" 
+# non-default usage: "make KMAIN=test/my-kmain.c"
 KMAIN ?= ./kmain.c
 
 # check whether kmain does exists. typically this would get triggered
@@ -44,7 +44,7 @@ build:
 build/%.o: src/%.c $(wildcard src/*.h) | build
 	arm-none-eabi-gcc $(COMMON_FLAGS) $(CFLAGS) $< -c -o $@
 
-# compilation du point d'entrée 
+# compilation du point d'entrée
 build/kmain.o: $(KMAIN) $(wildcard src/*.h)
 	arm-none-eabi-gcc $(COMMON_FLAGS) $(CFLAGS) -I src $< -c -o $@
 	@#"let's silently remember the checksum of the most recent kmain.c we compiled"
@@ -55,7 +55,7 @@ build/%.o: src/%.s | build
 	arm-none-eabi-as -g $(COMMON_FLAGS) $< -c -o $@
 
 # édition de liens
-build/kernel.elf: $(OBJECTS) build/kmain.o
+build/kernel.elf: $(OBJECTS) build/kmain.o tune.o
 	arm-none-eabi-ld $^ -o $@ -T src/sysif.ld -Map build/mapfile.map
 
 # conversion de l'image pour transfert sur carte SD
@@ -70,3 +70,6 @@ build/kernel.list: build/kernel.elf
 .PHONY:clean
 clean:
 	rm -rf build
+
+tune.o : tune.wav
+	arm-none-eabi-ld -s -r -o $@ -b binary $^

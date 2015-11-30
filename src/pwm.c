@@ -8,13 +8,13 @@ static volatile unsigned* clk = (void*)CLOCK_BASE;
 static volatile unsigned* pwm = (void*)PWM_BASE;
 
 /* Decomment this in order to get sound */
-/* char* audio_data = &_binary_tune_wav_start; */
+char* audio_data = &_binary_tune_wav_start;
 
 static void pause(int t) {
     // Pause for about t ms
     int i;
     for (;t>0;t--) {
-	for (i=5000;i>0;i--) 
+	for (i=5000;i>0;i--)
 	    i++; i--;
     }
 }
@@ -41,11 +41,11 @@ static void audio_init(void)
     *(clk + BCM2835_PWMCLK_DIV)  = PM_PASSWORD | (idiv<<12);  // set divisor
     *(clk + BCM2835_PWMCLK_CNTL) = PM_PASSWORD | 16 | 1;      // enable + oscillator (raspbian has this as plla)
 
-    pause(2); 
+    pause(2);
 
     // disable PWM
     *(pwm + BCM2835_PWM_CONTROL) = 0;
-       
+
     pause(2);
 
     *(pwm+BCM2835_PWM0_RANGE) = range;
@@ -76,10 +76,10 @@ audio_test()
 	if (!(status & BCM2835_FULL1))
 	{
 	    /* Decomment this in order to get sound */
-	    /* *(pwm+BCM2835_PWM_FIFO) = audio_data[i]; */
+	    *(pwm+BCM2835_PWM_FIFO) = audio_data[i];
 	    i++;
 	}
-      
+
 	if ((status & ERRORMASK)) {
 	    //                uart_print("error: ");
 	    //                hexstring(status);
