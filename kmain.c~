@@ -12,6 +12,6 @@ int kmain(void) {
 
   sys_exit(0);
 
- 
+  /** Bonjour, je suis un return, mais jamais on ne m'exécute moi :( **/
   return 0;
 }

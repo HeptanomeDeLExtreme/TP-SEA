@@ -141,7 +141,7 @@ void
 hw_init()
 {
     /* Init uart */
-    //uart_init();
+    uart_init();
 
     /* Init LED */
     led_init();
