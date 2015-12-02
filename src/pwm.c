@@ -15,8 +15,6 @@ static void pause(int t) {
   int i;
   for (; t > 0; t--) {
     for (i = 5000; i > 0; i--) {
-      i++;
-      i--;
     }
   }
 }
