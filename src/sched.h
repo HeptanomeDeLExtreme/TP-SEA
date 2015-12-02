@@ -20,41 +20,21 @@
 //--------------------------------------------------- Interfaces utilisées
 
 //------------------------------------------------------------- Constantes
-
+#include "kheap.h"
+#include "hw.h"
+#include "asm_tools.h"
+#include "banane.h"
+#include <stdint.h>
 #define SYS_YIELDTO 5
 #define SYS_YIELD 6
 #define SYS_EXIT 7
 
 //------------------------------------------------------------------ Types
 
-struct pcb_s
-{
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    int r4;
-    int r5;
-    int r6;
-    int r7;
-    int r8;
-    int r9;
-    int r10;
-    int r11;
-    int r12;
-    int lr_svc;
-    int lr_user;
-    void* sp;
-    int pc;
-    int cpsr_user;
-    struct pcb_s* precedao;
-    struct pcb_s* suivao;
-
-    void* debut_pile;
-    int code_retour;
-};
-
 typedef int (func_t) (void);
+
+struct pcb_s *current_process; //the current process
+struct pcb_s kmain_process; //the main process, à initialiser
 
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques

@@ -12,21 +12,17 @@
 //-------------------------------------------------------- Include système
 
 //------------------------------------------------------ Include personnel
-#include "sched.h"
-#include "kheap.h"
-#include "hw.h"
-#include "asm_tools.h"
+
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
-
+#include "sched.h"
 
 //---------------------------------------------------- Variables statiques
-struct pcb_s *current_process; //the current process
-struct pcb_s kmain_process; //the main process, à initialiser
+
 int stackPointer2;
 int lr_irq;
 
@@ -196,7 +192,12 @@ void sched_init()
     kmain_process.suivao = &kmain_process;
 
     current_process = &kmain_process;
-    kheap_init();
+
+    #if VMEM
+	vmem_init();
+	#else
+	kheap_init();
+	#endif
 }
 
 
@@ -207,7 +208,7 @@ void create_process(func_t* entry)
 
     struct pcb_s* result = (struct pcb_s*) kAlloc(sizeof(struct pcb_s));
     void* stack = kAlloc(10*1024);
-
+	result->page_table = MMUTABLEBASE;
 
     result->sp = stack + 2560; //beginning of the stack (empty)
     result->lr_svc=(int)entry;

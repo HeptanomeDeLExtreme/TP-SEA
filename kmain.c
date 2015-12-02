@@ -141,12 +141,12 @@ int kmain (void)
     p2=create_process((func_t*) &user_process_2);
 **/
     /** ENCULEEEE **/
-    create_process((func_t*)&user_process_1);
-    create_process((func_t*)&user_process_2);
-    create_process((func_t*)&user_process_3);
+    //create_process((func_t*)&user_process_1);
+    //create_process((func_t*)&user_process_2);
+    //create_process((func_t*)&user_process_3);
 
-    timer_init();
-    ENABLE_IRQ();
+    //timer_init();
+    //ENABLE_IRQ();
 
 
     /*int i;
@@ -155,19 +155,19 @@ int kmain (void)
         create_process((func_t*)&user_process);
 
     }*/
-    __asm("cps 0x10");
+    //__asm("cps 0x10");
 
 
 
    //**//**//**// sys_yieldto(p1); //laisse la main à p1
 
-    int i=0;
+    //int i=0;
 
-    while(i<100)
-    {
-        sys_yield();
-        i++;
-    }
+    //while(i<100)
+    //{
+    //    sys_yield();
+    //    i++;
+    //}
 
     //**PANIC();
     /**int volume;
@@ -175,6 +175,12 @@ int kmain (void)
 	dummy();
     volume = compute_volume(radius);*/
 
+	uint32_t adresse1 =  vmem_translate(0x00001234, current_process);
+	uint32_t adresse2 =  vmem_translate(0x12345678, current_process);
+	uint32_t adresse3 =  vmem_translate(0x23456789, current_process);
+
+	adresse1 = adresse2 + adresse3;
+	adresse1 = adresse1*2;
     sys_exit(0);
 
 
