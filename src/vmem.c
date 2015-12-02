@@ -63,6 +63,7 @@ init_kern_translation_table(void){
 }
 
 void vmem_init(){
+	kheap_init();
 	init_kern_translation_table();
 	configure_mmu_C();
 	uint32_t cpsr = 0;

@@ -20,6 +20,4 @@ void configure_mmu_C();
 
 unsigned int init_kern_translation_table(void);
 
-void vmem_init();
-
 
