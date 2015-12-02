@@ -1326,7 +1326,7 @@ Disassembly of section .text:
     92e0:	e5d22000 	ldrb	r2, [r2]
     92e4:	e5832000 	str	r2, [r3]
     92e8:	e59d3004 	ldr	r3, [sp, #4]
-    92ec:	e2833001 	add	r3, r3, #1
+    92ec:	e2833002 	add	r3, r3, #2
     92f0:	e58d3004 	str	r3, [sp, #4]
     92f4:	e59d3000 	ldr	r3, [sp]
     92f8:	e203303c 	and	r3, r3, #60	; 0x3c

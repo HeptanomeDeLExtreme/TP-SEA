@@ -72,7 +72,7 @@ void audio_test() {
     if (!(status & BCM2835_FULL1)) {
       /* Decomment this in order to get sound */
       *(pwm + BCM2835_PWM_FIFO) = audio_data[i];
-      i++;
+      i+=2;
     }
 
     if ((status & ERRORMASK)) {
