@@ -1,17 +1,9 @@
-
 #include "syscall.h"
 #include "util.h"
 #include "sched.h"
 #include "hw.h"
 #include "asm_tools.h"
 
-
-#define NB_PROCESS 5
-
-
-struct pcb_s pcb1, pcb2; //contextes de p1, p2
-
-struct pcb_s *p1, *p2; //pointeurs vers pcb1, pcb2
 
 void user_process_1()
 {
@@ -46,7 +38,7 @@ void user_process_3()
 int kmain (void)
 {
 
-    sched_init(); //pour mettre current_process vers le contexte de kmain
+    sched_init(); 
 
     create_process((func_t*)&user_process_1);
     create_process((func_t*)&user_process_2);
