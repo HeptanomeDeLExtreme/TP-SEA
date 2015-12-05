@@ -3,6 +3,7 @@
 #include "sched.h"
 #include "hw.h"
 #include "asm_tools.h"
+#include "fb.h"
 
 
 void user_process_1()
@@ -37,22 +38,31 @@ void user_process_3()
 
 int kmain (void)
 {
+	hw_init();
+	sched_init(); 
 
-    sched_init(); 
+	create_process((func_t*)&user_process_1);
+	create_process((func_t*)&user_process_2);
+	create_process((func_t*)&user_process_3);
 
-    create_process((func_t*)&user_process_1);
-    create_process((func_t*)&user_process_2);
-    create_process((func_t*)&user_process_3);
+	timer_init();
+	ENABLE_IRQ();
+	FramebufferInitialize();
+	__asm("cps 0x10");
 
-    timer_init();
-    ENABLE_IRQ();
+	draw();
 
-    __asm("cps 0x10");
+	while(1) 
+	{ 
+		drawRed();
+		drawBlue(); 
+	}
+	
+	
+	while(1)
+	{
+		sys_yield();
+	}
 
-    while(1)
-    {
-        sys_yield();
-    }
-
-    return 0;
+	return 0;
 }
