@@ -70,4 +70,6 @@ void drawHelloConsole();
 
 void prompt();
 
+void clear();
+
 #endif

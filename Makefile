@@ -12,6 +12,9 @@ kernel_for_sdcard: kernel_for_qemu build/kernel.img
 
 remake: clean all
 
+# The names of libraries to use.
+LIBRARIES := csud
+
 # options à passer au compilateur C
 CFLAGS=-Wall -Werror -nostdlib -nostartfiles -ffreestanding -std=c99 -g -fomit-frame-pointer -nostartfiles -O0 -fdiagnostics-show-option
 
@@ -56,7 +59,7 @@ build/%.o: src/%.s | build
 
 # édition de liens
 build/kernel.elf: $(OBJECTS) build/kmain.o
-	arm-none-eabi-ld $^ -o $@ -T src/sysif.ld -Map build/mapfile.map
+	arm-none-eabi-ld $^ -o $@ -T src/sysif.ld -Map build/mapfile.map -L. $(patsubst %,-l %,$(LIBRARIES))
 
 # conversion de l'image pour transfert sur carte SD
 build/kernel.img: build/kernel.elf

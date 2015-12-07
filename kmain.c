@@ -5,52 +5,46 @@
 #include "asm_tools.h"
 #include "fb.h"
 
+void UsbInitialise();
+void KeyboardUpdate();
+char KeyboardGetChar();
 
-void user_process_1()
+void runloop()
 {
-    int v1=5;
-    while(1)
-    {
-        v1++;
-    }
-
-
+	KeyboardUpdate();
+	
+	char c = KeyboardGetChar();
+	
+	if (c != 0)
+	{
+		drawChar(c);
+	}
 }
 
-void user_process_2()
-{
-    int v2 = -12;
-    while(1)
-    {
-        v2-=2;
-    }
-}
-
-void user_process_3()
-{
-    int v3 = 0;
-    while(1)
-    {
-        v3+=5;
-
-    }
-}
 
 int kmain (void)
 {
 	hw_init();
 	sched_init(); 
 
-	create_process((func_t*)&user_process_1);
-	create_process((func_t*)&user_process_2);
-	create_process((func_t*)&user_process_3);
+	create_process((func_t*)&runloop);
 
 	timer_init();
 	ENABLE_IRQ();
 	
+	// init keyboard
+	UsbInitialise();
+	
+	// init screen
 	FramebufferInitialize();
+	
+	// clean screen
+	clear();
+	
 	__asm("cps 0x10");
 
+
+	// draw console hello world
 	drawHelloConsole();
 
 	return 0;

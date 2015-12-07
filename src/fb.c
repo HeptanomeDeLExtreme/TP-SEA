@@ -338,3 +338,16 @@ void drawHelloConsole()
 	drawHorizontalLine(screenWidth);
 	prompt();
 }
+
+void clear()
+{
+	for(int i = 0;i<screenHeight;i++)
+	{
+		for(int j = 0;j<screenWidth;j++)
+		{
+			put_pixel_RGB24(j,i,0x00,0x00,0x00);
+		}
+	}
+	offsetX = 0;
+	offsetY = 0;
+}
