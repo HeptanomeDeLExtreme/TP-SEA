@@ -9,16 +9,41 @@ void UsbInitialise();
 void KeyboardUpdate();
 char KeyboardGetChar();
 
+volatile int i = 65;
+
 void runloop()
 {
-	KeyboardUpdate();
-	
-	char c = KeyboardGetChar();
-	
-	if (c != 0)
-	{
-		drawChar(c);
+	while(1){
+		KeyboardUpdate();
+		
+		char c = KeyboardGetChar();
+		
+		if (c != 0)
+		{
+			drawChar(c);
+		}
 	}
+}
+
+void bash()
+{
+	// draw console hello world
+	drawHelloConsole();
+	
+	while(1)
+	{
+		i = 65;
+		i++;
+		if(i>127)
+		{
+			i = 65;
+		}
+	}
+}
+
+void oho()
+{
+	drawChar(i);
 }
 
 
@@ -28,24 +53,25 @@ int kmain (void)
 	sched_init(); 
 
 	create_process((func_t*)&runloop);
+	create_process((func_t*)&bash);
+	create_process((func_t*)&oho);
+
 
 	timer_init();
-	ENABLE_IRQ();
-	
-	// init keyboard
-	UsbInitialise();
+
 	
 	// init screen
 	FramebufferInitialize();
 	
+	// init keyboard
+	//~ UsbInitialise();
+	
 	// clean screen
 	clear();
 	
+	ENABLE_IRQ();
 	__asm("cps 0x10");
 
-
-	// draw console hello world
-	drawHelloConsole();
 
 	return 0;
 }
