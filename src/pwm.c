@@ -67,12 +67,12 @@ void audio_test() {
   long status;
   audio_init();
 
-  while (i < 1000000) {
+  while (i < 40000) {
     status = *(pwm + BCM2835_PWM_STATUS);
     if (!(status & BCM2835_FULL1)) {
       /* Decomment this in order to get sound */
       *(pwm + BCM2835_PWM_FIFO) = audio_data[i];
-      i+=2;
+      i+=1;
     }
 
     if ((status & ERRORMASK)) {

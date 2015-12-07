@@ -7,9 +7,10 @@
 #include "pwm.h"
 
 int kmain(void) {
-
-  audio_test();
-
+	
+	while (1){
+		audio_test();
+	}
   sys_exit(0);
 
  

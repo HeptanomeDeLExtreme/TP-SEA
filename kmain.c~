@@ -7,11 +7,12 @@
 #include "pwm.h"
 
 int kmain(void) {
-
-  audio_test();
-
+	
+	while (true){
+		audio_test();
+	}
   sys_exit(0);
 
-  /** Bonjour, je suis un return, mais jamais on ne m'exécute moi :( **/
+ 
   return 0;
 }
