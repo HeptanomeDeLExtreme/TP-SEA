@@ -47,22 +47,11 @@ int kmain (void)
 
 	timer_init();
 	ENABLE_IRQ();
+	
 	FramebufferInitialize();
 	__asm("cps 0x10");
 
-	draw();
-
-	while(1) 
-	{ 
-		drawRed();
-		drawBlue(); 
-	}
-	
-	
-	while(1)
-	{
-		sys_yield();
-	}
+	drawHelloConsole();
 
 	return 0;
 }

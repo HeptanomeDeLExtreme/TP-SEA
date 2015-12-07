@@ -56,4 +56,18 @@ void drawRed();
 
 void drawBlue();
 
+void drawString(char * string, int length);
+
+void drawChar(char c);
+
+void drawVerticalLine(int size);
+
+void drawHorizontalLine(int size);
+
+void newLine();
+
+void drawHelloConsole();
+
+void prompt();
+
 #endif

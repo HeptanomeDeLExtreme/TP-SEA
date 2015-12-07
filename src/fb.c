@@ -1,6 +1,16 @@
 #include <stdint.h>
 #include "fb.h"
 
+#include "font8x8_basic.h"
+
+#define jumpLine 10
+#define breakspace 8
+#define screenWidth 1024
+#define screenHeight 768
+
+int offsetX = 0;
+int offsetY = 0;
+
 /*
  * Adresse du framebuffer, taille en byte, résolution de l'écran, pitch et depth (couleurs)
  */
@@ -252,4 +262,79 @@ void drawBlue() {
       put_pixel_RGB24(x,y,0,0,255);
     }
   }
+}
+
+void render(char * bitmap){
+	int i,j;
+    int set;
+    for (i=0; i < 8; i++) {
+        for (j=0; j < 8; j++) {
+            set = bitmap[i] & 1 << j;
+            if(set)
+            {
+				int x = i+offsetX;
+				int y = j+offsetY;
+				put_pixel_RGB24(y,x,0xFF,0xFF,0xFF);
+			}
+        }
+    }
+    offsetY += breakspace;
+}
+
+void newLine()
+{
+	offsetX += jumpLine;
+	offsetY = 0;
+}
+
+void drawChar(char c){
+	char *bitmap = font8x8_basic[(int)c];
+    render(bitmap);
+}
+
+void drawString(char * string, int length){
+	for(int i = 0;i<length;i++)
+	{
+		drawChar(string[i]);
+	}
+	newLine();
+}
+
+void drawStringWithoutNewLine(char * string, int length){
+	for(int i = 0;i<length;i++)
+	{
+		drawChar(string[i]);
+	}
+}
+
+void drawVerticalLine(int size)
+{
+	for(int i = 0;i<size;i++)
+	{
+		put_pixel_RGB24(10,i,0xFF,0xFF,0xFF);
+	}
+}
+
+void drawHorizontalLine(int size)
+{
+	for(int i = 0;i<size;i++)
+	{
+		put_pixel_RGB24(i,offsetX,0xFF,0xFF,0xFF);
+	}
+	newLine();
+}
+
+void prompt()
+{
+	drawStringWithoutNewLine("> ",2);
+}
+
+void drawHelloConsole()
+{
+	drawHorizontalLine(screenWidth);
+	drawString("Tac'OS", 6);
+	drawString("Badadadadam", 11);
+	drawString("Alors mes p'tits cocos !", 24);
+	drawHorizontalLine(screenWidth);
+	prompt();
 }
