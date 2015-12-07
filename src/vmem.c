@@ -36,31 +36,59 @@ configure_mmu_C()
 	__asm volatile("mcr p15, 0, %[r], c3, c0, 0" : : [r] "r" (0x3));
 }
 
-unsigned int
-init_kern_translation_table(void){
-	uint8_t* first_level_table = kAlloc_aligned(FIRST_LVL_TT_SIZE, 14);
-	MMUTABLEBASE = (unsigned int)first_level_table;
-	for (uint32_t i = 0; i< FIRST_LVL_TT_SIZE; i++){
-		uint8_t* second_level_table = kAlloc_aligned(SECON_LVL_TT_SIZE, 10);
-		first_level_table[i] = (uint32_t)first_table_flags | ((uint32_t)second_level_table & 0xFFFFFC00);
-		for(uint32_t j=0; j<SECON_LVL_TT_SIZE ; j++){
-			if(j<__kernel_heap_end__){
+
+
+/* ANCIEN CODE, IL FAUT SANS DOUTE RECUPERER DES BOUTS
+
+	for (uint32_t i = 0; i< FIRST_LVL_TT_COUN; i++){
+
+		for(uint32_t j=0; j<SECON_LVL_TT_COUN ; j++){
+			if(j<(uint32_t)kernel_heap_limit){
 				second_level_table[j] = device_flags | (j<<12);
 			}
 			else if(j>0x20000000 && j<0x20FFFFFF){
 				second_level_table[j] = device_flags | (j<<12);
 			}
-			else if(j>__kernel_heap_end__) {
+			else {
 				second_level_table[j] = normal_flags | (j<<12);
 			}
-			else{
-				second_level_table[j] =0;
-			}
 		}
+		first_level_table[i] = (uint32_t)first_table_flags | ((uint32_t)second_level_table & 0xFFFFFC00);
 		first_level_table ++;
+	}
+*/
+
+//CODE DU PROF, A COMPLETER
+void
+add_translation(va, pa) // virtual/physical adress
+{
+	first_level_entry = ...
+	// valid if 01 (else : not allocated, we need to allocate)
+	is_entry_valid = ...
+			uint32_t* second_level_table;
+	if(! valid_entry) {
+		second_level_table = (uint32_t*)kAlloc_aligned(SECON_LVL_TT_SIZE, 10);
+	}
+
+	//suite (else ?)
+	
+}
+
+//CODE DU PROF, A COMPLETER
+unsigned int
+init_kern_translation_table(void){
+	uint32_t* first_level_table = (uint32_t*)kAlloc_aligned(FIRST_LVL_TT_SIZE, 14);
+	MMUTABLEBASE = (unsigned int) first_level_table;
+
+	//parcours de la table de niv 1
+	for (addr = 0 ; addr < end ; addr += PAGE_SIZE) {
+		if(j<(uint32_t)kernel_heap_limit) {
+			add_translation(addr, addr); 			
+		}
 	}
 	return 0;
 }
+
 
 void vmem_init(){
 	kheap_init();
@@ -71,6 +99,15 @@ void vmem_init(){
 	__asm("mov %0, r0":"=r"(cpsr));
 	cpsr+=0xC0;
 	__asm("msr cpsr, %0"::"r"(cpsr));
+
+	/* Bijour je suis un test */
+	uint32_t adresse1 =  vmem_translate(0x00001234, NULL);
+	uint32_t adresse2 =  vmem_translate(0x12345678, NULL);
+	uint32_t adresse3 =  vmem_translate(0x23456789, NULL);
+
+	adresse1 = adresse2 + adresse3;
+	adresse1 = adresse1*2;
+
 	start_mmu_C();
 
 }
