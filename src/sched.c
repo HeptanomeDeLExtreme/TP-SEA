@@ -51,7 +51,7 @@ void elect();
 void irq_handler()
 {
 
-
+	DISABLE_IRQ();
 
     __asm("mov %0, lr":"=r"(lr_irq));
 

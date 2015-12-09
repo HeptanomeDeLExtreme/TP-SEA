@@ -9,9 +9,23 @@ void UsbInitialise();
 void KeyboardUpdate();
 char KeyboardGetChar();
 
-volatile int i = 65;
+char commandLine[256];
+int commandLineSize = 0;
 
-void runloop()
+void applyMethod()
+{
+	newLine();
+	for(int i = 0;i<commandLineSize;i++)
+	{
+		drawChar(commandLine[i]);
+	}
+	commandLineSize = 0;
+	newLine();
+	drawChar('>');
+	drawChar(' ');
+}
+
+void keyboardLoop()
 {
 	while(1){
 		KeyboardUpdate();
@@ -20,58 +34,68 @@ void runloop()
 		
 		if (c != 0)
 		{
-			drawChar(c);
+			if(c=='\n')
+			{
+				applyMethod();
+			}
+			else{
+				commandLine[commandLineSize] = c;
+				commandLineSize++;
+				drawChar(c);
+			}
 		}
 	}
 }
 
-void bash()
+void printHeader()
 {
-	// draw console hello world
 	drawHelloConsole();
-	
 	while(1)
 	{
-		i = 65;
+		volatile int i = 0;
 		i++;
-		if(i>127)
-		{
-			i = 65;
-		}
 	}
 }
 
-void oho()
+void dummy()
 {
-	drawChar(i);
+	while(1)
+	{
+		volatile int i = 0;
+		i++;
+	}
 }
-
 
 int kmain (void)
 {
-	hw_init();
 	sched_init(); 
-
-	create_process((func_t*)&runloop);
-	create_process((func_t*)&bash);
-	create_process((func_t*)&oho);
-
-
-	timer_init();
-
 	
+	create_process((func_t*)&printHeader);
+	create_process((func_t*)&dummy);
+	create_process((func_t*)&keyboardLoop);
+	
+
 	// init screen
 	FramebufferInitialize();
 	
 	// init keyboard
-	//~ UsbInitialise();
+	UsbInitialise();
 	
 	// clean screen
 	clear();
 	
+	hw_init();
+	
+	
+	timer_init();
 	ENABLE_IRQ();
+	
 	__asm("cps 0x10");
-
+	
+	while(1)
+	{
+		sys_yield();
+	}
 
 	return 0;
 }
