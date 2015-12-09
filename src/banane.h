@@ -23,6 +23,7 @@ struct pcb_s
     struct pcb_s* precedao;
     struct pcb_s* suivao;
 	uint32_t page_table;
+	uint8_t occupation_table;
 
     void* debut_pile;
     int code_retour;

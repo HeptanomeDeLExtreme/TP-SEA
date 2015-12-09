@@ -209,6 +209,7 @@ void create_process(func_t* entry)
     struct pcb_s* result = (struct pcb_s*) kAlloc(sizeof(struct pcb_s));
     void* stack = kAlloc(10*1024);
 	result->page_table = MMUTABLEBASE;
+	result->occupation_table = OCCUPATION_TABLE;
 
     result->sp = stack + 2560; //beginning of the stack (empty)
     result->lr_svc=(int)entry;

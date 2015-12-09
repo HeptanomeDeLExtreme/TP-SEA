@@ -6,7 +6,7 @@ int SECON_LVL_TT_COUN = 256;
 int SECON_LVL_TT_SIZE = 1024;
 int FIRST_LVL_TT_COUN = 4096;
 int FIRST_LVL_TT_SIZE = 16384;
-
+int PAGE_NUMBER = 0x20FFFFFF/PAGE_SIZE;
 
 // First translation table flags
 uint32_t first_table_flags =
