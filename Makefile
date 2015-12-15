@@ -13,13 +13,13 @@ kernel_for_sdcard: kernel_for_qemu build/kernel.img
 remake: clean all
 
 # The names of libraries to use.
-LIBRARIES := uspi uspienv
+LIBRARIES := csud
 
 # options à passer au compilateur C
 CFLAGS=-Wall -Werror -nostdlib -nostartfiles -ffreestanding -std=c99 -g -fomit-frame-pointer -nostartfiles -O0 -fdiagnostics-show-option
 
 # options à passer à la fois au compilateur C et à l'assembleur
-COMMON_FLAGS=-mcpu=arm1176jzf-s -mfloat-abi=hard -mfpu=fpv4-sp-d16
+COMMON_FLAGS=-mcpu=arm1176jzf-s
 
 # Object files (excluding kmain)
 OBJECTS=$(addsuffix .o,  $(addprefix build/, $(basename $(notdir $(wildcard src/*.[cs])))))

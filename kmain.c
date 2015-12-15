@@ -5,16 +5,46 @@
 #include "asm_tools.h"
 #include "fb.h"
 
+void UsbInitialise();
+void KeyboardUpdate();
+char KeyboardGetChar();
 
-void USPiEnvClose();
-int USPiKeyboardAvailable();
-int USPiEnvInitialize();
-int USPiInitialize();
-void USPiKeyboardRegisterKeyPressedHandler();
+char commandLine[256];
+int commandLineSize = 0;
 
-static void KeyPressedHandler (const char *pString)
+void applyMethod()
 {
-	drawString("coucou",6);
+	newLine();
+	for(int i = 0;i<commandLineSize;i++)
+	{
+		drawChar(commandLine[i]);
+	}
+	commandLineSize = 0;
+	newLine();
+	drawChar('>');
+	drawChar(' ');
+}
+
+void keyboardLoop()
+{
+	while(1){
+		KeyboardUpdate();
+		
+		char c = KeyboardGetChar();
+		
+		if (c != 0)
+		{
+			if(c=='\n')
+			{
+				applyMethod();
+			}
+			else{
+				commandLine[commandLineSize] = c;
+				commandLineSize++;
+				drawChar(c);
+			}
+		}
+	}
 }
 
 void printHeader()
@@ -42,46 +72,17 @@ int kmain (void)
 	
 	create_process((func_t*)&printHeader);
 	create_process((func_t*)&dummy);
+	create_process((func_t*)&keyboardLoop);
 	
 
 	// init screen
 	FramebufferInitialize();
 	
+	// init keyboard
+	UsbInitialise();
+	
 	// clean screen
 	clear();
-	
-	//KEYBOARD
-	if (!USPiEnvInitialize ())
-	{
-		return -2;
-	}
-	
-	if (!USPiInitialize ())
-	{
-
-		USPiEnvClose ();
-
-		return -2;
-	}
-	
-	if (!USPiKeyboardAvailable ())
-	{
-
-		USPiEnvClose ();
-
-		return -2;
-	}
-
-	USPiKeyboardRegisterKeyPressedHandler(KeyPressedHandler);
-
-
-	// just wait and turn the rotor
-	//~ for (unsigned nCount = 0; 1; nCount++)
-	//~ {
-		//~ ScreenDeviceRotor (USPiEnvGetScreen (), 0, nCount);
-	//~ }
-	//KEYBOARD
-	
 	
 	hw_init();
 	
