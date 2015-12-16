@@ -88,7 +88,7 @@ void commandProcess()
 	}
 	else
 	{
-		drawString("La commande n'existe pas.", 25);
+		drawError("La commande n'existe pas.", 25);
 	}
 	
 	commandSize = 0;
