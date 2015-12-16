@@ -1,12 +1,13 @@
 
 #include "banane.h"
 
-int PAGE_SIZE = 4;
-int SECON_LVL_TT_COUN = 256;
-int SECON_LVL_TT_SIZE = 1024;
-int FIRST_LVL_TT_COUN = 4096;
-int FIRST_LVL_TT_SIZE = 16384;
-int PAGE_NUMBER = 0x20FFFFFF/PAGE_SIZE;
+const int PAGE_SIZE = 4;
+const int SECON_LVL_TT_COUN = 256;
+const int SECON_LVL_TT_SIZE = 1024;
+const int FIRST_LVL_TT_COUN = 4096;
+const int FIRST_LVL_TT_SIZE = 16384;
+const int TAILLE = 0x20FFFFFF;
+const int PAGE_NUMBER = 0x8400000;
 
 // First translation table flags
 uint32_t first_table_flags =
@@ -48,4 +49,16 @@ void configure_mmu_C();
 
 unsigned int init_kern_translation_table(void);
 
+uint32_t 
+find_n_free_pages(struct pcb_s* process, unsigned int nb_pages);
 
+uint32_t
+find_one_free_frame(struct pcb_s* process);
+
+uint32_t
+vmem_translate(uint32_t va, struct pcb_s* process);
+
+void
+add_translation(uint32_t va, uint32_t pa);
+
+void vmem_init();

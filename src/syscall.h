@@ -49,6 +49,7 @@
 // Contrat :
 //
 
+void* sys_mmap(unsigned int size);
 
 #endif // SYSCALL_H
 

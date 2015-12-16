@@ -175,12 +175,14 @@ int kmain (void)
 	dummy();
     volume = compute_volume(radius);*/
 
-	uint32_t adresse1 =  vmem_translate(0x00001234, current_process);
-	uint32_t adresse2 =  vmem_translate(0x12345678, current_process);
-	uint32_t adresse3 =  vmem_translate(0x23456789, current_process);
+	/* uint32_t adresse1 =  vmem_translate(0x00001234, current_process); */
+	/* uint32_t adresse2 =  vmem_translate(0x12345678, current_process); */
+	/* uint32_t adresse3 =  vmem_translate(0x23456789, current_process); */
 
-	adresse1 = adresse2 + adresse3;
-	adresse1 = adresse1*2;
+	/* adresse1 = adresse2 + adresse3; */
+	/* adresse1 = adresse1*2; */
+
+    sys_mmap(4);
     sys_exit(0);
 
 

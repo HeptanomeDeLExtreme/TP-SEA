@@ -204,8 +204,6 @@ void sched_init()
 void create_process(func_t* entry)
 {
 
-
-
     struct pcb_s* result = (struct pcb_s*) kAlloc(sizeof(struct pcb_s));
     void* stack = kAlloc(10*1024);
 	result->page_table = MMUTABLEBASE;
@@ -223,8 +221,6 @@ void create_process(func_t* entry)
 
     current_process->precedao->suivao = result;
     current_process->precedao = result;
-
-
     return;
 
 }
