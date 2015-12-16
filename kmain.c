@@ -22,9 +22,17 @@ int parametersSize = 0;
 // currentTime
 // reboot
 
-void resetCommand()
+void testAffichage()
 {
-	commandLineSize = 0;
+	for(int i = 0; i < commandLineSize; i++)
+	{
+		drawChar(commandLine[i]);
+	}
+}
+
+void resetCommand(int sizeCommand)
+{
+	sizeCommand = 0;
 }
 
 void addCharacterInString(char c, char* str, int strSize)
@@ -35,37 +43,46 @@ void addCharacterInString(char c, char* str, int strSize)
 
 void commandProcess()
 {
-	int indexParameter = 0;
+	int index = 0;
+	char c = commandLine[index];
+	testAffichage();
 	while(c != ' ')
 	{
 		addCharacterInString(commandLine[index], command, commandSize);
+		index++;
 	}
-	addCharacterInString('\0', command, commandSize);
+	drawString(command, commandSize);
+	newLine();
 	
-	indexParameter = commandSize + 1;
-	while(c != '\0')
+	index++;
+	c = commandLine[index];
+	while(c == ' ')
 	{
-		addCharacterInString(commandLine[indexParameter], parameters, parametersSize);
-		indexParameter;
+		index++;
 	}
-	addCharacterInString('\0', parameters, parametersSize);
-	
-	drawString(command, commandSize - 1); // Without /0
-	drawChar('\n');
-	drawString('ZBLAH !', 7);
-	drawString(parameters, parametersSize - 1);
+
+	for(int i = index; i < commandLineSize; i++)
+	{
+		addCharacterInString(commandLine[index], parameters, parametersSize);
+		index++;
+	}
+	drawString(parameters, parametersSize);
+	newLine();
+
+	resetCommand(commandSize);
+	resetCommand(parametersSize);
 }
 
 void applyMethod()
 {
-	addCharacterInString('\0', commandLine, commandLineSize);
 	newLine();
-	/*for(int i = 0;i<commandLineSize;i++)
-	{
-		drawChar(commandLine[i]);
-	}*/
+	drawString("---applyMethod---", 17);
+	newLine();
+	testAffichage();
 	commandProcess();
-	resetCommand();
+	resetCommand(commandLineSize);
+	newLine();
+	drawString("---applyMethod---", 17);
 	newLine();
 	drawChar('>');
 	drawChar(' ');
@@ -80,12 +97,12 @@ void keyboardLoop()
 		
 		if (c != 0)
 		{
-			if(c=='\n')
+			if(c == '\n')
 			{
 				applyMethod();
 			}
 			else{
-				addCharacterInString(c);
+				addCharacterInString(c, commandLine, commandLineSize);
 				drawChar(c);
 			}
 		}
