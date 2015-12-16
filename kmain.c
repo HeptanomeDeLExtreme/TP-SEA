@@ -28,61 +28,58 @@ void testAffichage()
 	{
 		drawChar(commandLine[i]);
 	}
-}
-
-void resetCommand(int sizeCommand)
-{
-	sizeCommand = 0;
-}
-
-void addCharacterInString(char c, char* str, int strSize)
-{
-	str[strSize] = c;
-	strSize++;
+	drawChar(commandLine[0]);
 }
 
 void commandProcess()
 {
+	// Récupération de la commande et du reste dans deux variables
+	// différentes
 	int index = 0;
-	char c = commandLine[index];
-	testAffichage();
-	while(c != ' ')
+	while(commandLine[index] != ' ')
 	{
-		addCharacterInString(commandLine[index], command, commandSize);
+		command[commandSize] = commandLine[index];
+		commandSize++;
 		index++;
 	}
-	drawString(command, commandSize);
-	newLine();
+	command[commandSize] = '\0';
+	commandSize++;
 	
 	index++;
-	c = commandLine[index];
-	while(c == ' ')
+	while(commandLine[index] == ' ')
 	{
 		index++;
 	}
 
 	for(int i = index; i < commandLineSize; i++)
 	{
-		addCharacterInString(commandLine[index], parameters, parametersSize);
+		parameters[parametersSize] = commandLine[index];
+		parametersSize++;
 		index++;
 	}
-	drawString(parameters, parametersSize);
-	newLine();
-
-	resetCommand(commandSize);
-	resetCommand(parametersSize);
+	parameters[parametersSize] = '\0';
+	parametersSize++;
+	
+	// Traitement de chaque commande individuellement
+	int resultEcho = strcmp("echo", command);
+	
+	if(resultEcho == 0)
+	{
+		drawString(parameters, parametersSize);
+	}
+	else
+	{
+		drawString("La commande n'existe pas.", 25);
+	}
+	
+	commandSize = 0;
+	parametersSize = 0;
 }
 
 void applyMethod()
 {
-	newLine();
-	drawString("---applyMethod---", 17);
-	newLine();
-	testAffichage();
 	commandProcess();
-	resetCommand(commandLineSize);
-	newLine();
-	drawString("---applyMethod---", 17);
+	commandLineSize = 0;
 	newLine();
 	drawChar('>');
 	drawChar(' ');
@@ -99,10 +96,13 @@ void keyboardLoop()
 		{
 			if(c == '\n')
 			{
+				newLine();
 				applyMethod();
 			}
-			else{
-				addCharacterInString(c, commandLine, commandLineSize);
+			else
+			{
+				commandLine[commandLineSize] = c;
+				commandLineSize++;
 				drawChar(c);
 			}
 		}
