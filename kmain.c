@@ -2,6 +2,7 @@
 #include "util.h"
 #include "sched.h"
 #include "hw.h"
+#include "pwm.h"
 #include "asm_tools.h"
 #include "fb.h"
 
@@ -23,11 +24,6 @@ int commandSize = 0;
 char parameters[256];
 int parametersSize = 0;
 
-// echo
-// music
-// currentTime
-// reboot
-
 void testAffichage()
 {
 	for(int i = 0; i < commandLineSize; i++)
@@ -44,9 +40,16 @@ void commandProcess()
 	int index = 0;
 	while(commandLine[index] != ' ')
 	{
-		command[commandSize] = commandLine[index];
-		commandSize++;
-		index++;
+		if(index != commandLineSize)
+		{
+			command[commandSize] = commandLine[index];
+			commandSize++;
+			index++;
+		}
+		else
+		{
+			break;
+		}
 	}
 	command[commandSize] = '\0';
 	commandSize++;
@@ -67,11 +70,21 @@ void commandProcess()
 	parametersSize++;
 	
 	// Traitement de chaque commande individuellement
+	// OK echo : Affiche à l'écran ce qui est tapé.
+	// OK music : Lance audio_test qui joue de la musique.
+	// xx currentTime
+	// xx reboot
 	int resultEcho = strcmp("echo", command);
+	int resultMusic = strcmp("music", command);
 	
 	if(resultEcho == 0)
 	{
 		drawString(parameters, parametersSize);
+	}
+	else if(resultMusic == 0) 
+	{
+		drawString("Quelle douce musique...", 23);
+		// TODO : Lancer la fonction dans pwm qui lance la musique
 	}
 	else
 	{
