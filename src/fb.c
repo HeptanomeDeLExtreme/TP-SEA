@@ -8,6 +8,14 @@
 #define screenWidth 1024
 #define screenHeight 768
 
+
+/*
+ * Framebuffer variable
+ */
+uint8_t redC = 0xFF;
+uint8_t greenC = 0xFF;
+uint8_t blueC = 0xFF;
+
 int offsetX = 0;
 int offsetY = 0;
 
@@ -274,7 +282,7 @@ void render(char * bitmap){
             {
 				int x = i+offsetX;
 				int y = j+offsetY;
-				put_pixel_RGB24(y,x,0xFF,0xFF,0xFF);
+				put_pixel_RGB24(y,x,redC,greenC,blueC);
 			}
         }
     }
@@ -311,7 +319,7 @@ void drawVerticalLine(int size)
 {
 	for(int i = 0;i<size;i++)
 	{
-		put_pixel_RGB24(10,i,0xFF,0xFF,0xFF);
+		put_pixel_RGB24(10,i,redC,greenC,blueC);
 	}
 }
 
@@ -319,7 +327,7 @@ void drawHorizontalLine(int size)
 {
 	for(int i = 0;i<size;i++)
 	{
-		put_pixel_RGB24(i,offsetX,0xFF,0xFF,0xFF);
+		put_pixel_RGB24(i,offsetX,redC,greenC,blueC);
 	}
 	newLine();
 }
@@ -350,4 +358,22 @@ void clear()
 	}
 	offsetX = 0;
 	offsetY = 0;
+}
+
+void setColor(uint8_t redC_t, uint8_t greenC_t, uint8_t blueC_t)
+{
+	redC = redC_t;
+	greenC = greenC_t;
+	blueC = blueC_t;
+}
+
+void drawError(char * string, int length)
+{
+	uint8_t oldRed = redC;
+	uint8_t oldGreen = greenC;
+	uint8_t oldBlue = blueC;
+	setColor(0xFF,0x0,0x0);
+	drawString(string,length);
+	setColor(oldRed,oldGreen,oldBlue);
+	setColor(oldRed,oldGreen,oldBlue);
 }

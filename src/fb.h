@@ -44,9 +44,13 @@ static inline uint32_t mmio_read(uint32_t reg) {
     return data;
 }
 
+
+
 /*
  * Framebuffer functions
  */
+
+void setColor(uint8_t redC_t, uint8_t greenC_t, uint8_t blueC_t);
 
 int FramebufferInitialize();
 
@@ -67,6 +71,8 @@ void drawHorizontalLine(int size);
 void newLine();
 
 void drawHelloConsole();
+
+void drawError(char * string, int length);
 
 void prompt();
 
