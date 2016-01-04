@@ -19,10 +19,15 @@ char KeyboardGetChar();
 
 char commandLine[256];
 int commandLineSize = 0;
+
 char command[256];
 int commandSize = 0;
+
 char parameters[256];
 int parametersSize = 0;
+
+char history[256];
+int historySize = 0;
 
 void testAffichage()
 {
@@ -115,8 +120,34 @@ void keyboardLoop()
 		{
 			if(c == '\n')
 			{
+				// sauvegarde de l'historique
+				//~ drawChar(commandLine[0]);
+				//~ drawChar(command[0]);
+				for(int i = 0; i<commandLineSize;i++)
+				{
+					history[i] = commandLine[i];
+					historySize++;
+				}
+				
 				newLine();
 				applyMethod();
+			}
+			else if(c == 'h')
+			{
+				// restauration de l'historique
+				for(int i = 0; i<historySize;i++)
+				{
+					commandLine[i] = history[i];
+				}
+				commandLineSize = historySize;
+				newLine();
+				drawChar('$');
+				drawChar(' ');
+				for(int i = 0; i<commandLineSize;i++)
+				{
+					drawChar(commandLine[i]);
+				}
+				
 			}
 			else
 			{
