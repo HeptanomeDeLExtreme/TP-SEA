@@ -1,15 +1,20 @@
 #include "pwm.h"
 #include "hw.h"
 
-extern char _binary_tune_wav_start;
-extern char _binary_tune_wav_end;
+extern char _binary_tune1_wav_start;
+extern char _binary_tune1_wav_end;
+
+extern char _binary_tune2_wav_start;
+extern char _binary_tune2_wav_end;
+
+extern char _binary_tune3_wav_start;
+extern char _binary_tune3_wav_end;
 
 static volatile unsigned *gpio = (void *)GPIO_BASE;
 static volatile unsigned *clk = (void *)CLOCK_BASE;
 static volatile unsigned *pwm = (void *)PWM_BASE;
 
 /* Decomment this in order to get sound */
-char *audio_data = &_binary_tune_wav_start;
 
 static void pause(int t) {
   // Pause for about t ms
@@ -63,12 +68,28 @@ static void audio_init(void) {
   pause(2);
 }
 
-void audio_test() {
+void audio_test(int tune) {
   int i = 0;
   long status;
   audio_init();
 
-  int sizeOfSound = &_binary_tune_wav_end - &_binary_tune_wav_start;
+  char *audio_data;
+  int sizeOfSound;
+
+  switch (tune) {
+  case 1:
+    audio_data = &_binary_tune1_wav_start;
+    sizeOfSound = &_binary_tune1_wav_end - &_binary_tune1_wav_start;
+    break;
+  case 2:
+    audio_data = &_binary_tune2_wav_start;
+    sizeOfSound = &_binary_tune2_wav_end - &_binary_tune2_wav_start;
+    break;
+  case 3:
+    audio_data = &_binary_tune3_wav_start;
+    sizeOfSound = &_binary_tune3_wav_end - &_binary_tune3_wav_start;
+    break;
+  }
 
   while (i < sizeOfSound) {
     status = *(pwm + BCM2835_PWM_STATUS);
