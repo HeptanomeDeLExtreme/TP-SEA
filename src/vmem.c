@@ -3,6 +3,7 @@
 #include "kheap.h"
 #include "stdlib.h"
 
+uint8_t* occupation_table;
 
 void
 start_mmu_C()
@@ -71,9 +72,8 @@ unsigned int
 init_kern_translation_table(void){
   uint32_t* first_level_table = (uint32_t*)kAlloc_aligned(FIRST_LVL_TT_SIZE, 14);
   MMUTABLEBASE = (unsigned int) first_level_table;
-  
-  uint32_t* occupation_table = NULL; 
-  occupation_table = (uint32_t*)kAlloc_aligned(PAGE_NUMBER,0);
+   
+  occupation_table = (uint8_t*)kAlloc(FRAME_NUMBER);
   
   //parcours de la table de niv 1
   for (uint32_t addr = 0 ; addr <= 0x20FFFFFF ; addr += PAGE_SIZE) {
@@ -90,7 +90,6 @@ init_kern_translation_table(void){
     }
     occupation_table++;
   }
-  OCCUPATION_TABLE = (unsigned int) occupation_table;
   return 0;
 }
 
@@ -136,10 +135,9 @@ void vmem_init(){
 
 
 uint32_t
-find_one_free_frame(struct pcb_s* process)
+find_one_free_frame()
 {
-  uint32_t* occupation_table = (uint32_t*)process->occupation_table;
-  while(*(occupation_table)!=0 && (unsigned int) occupation_table < PAGE_NUMBER){
+  while(*(occupation_table)!=0 && (unsigned int) occupation_table < FRAME_NUMBER){
     occupation_table++;
   }
   if(*(occupation_table)==0)
@@ -203,11 +201,10 @@ Fonction 2 : find_one_free_frame
   // Adresse de la première case du premier endroit avec n cases libres et de la première frame libre
   uint32_t addr_n_free_pages = find_n_free_pages(process, nbr_pages_to_allocate);
   uint32_t addr_free_frame = 0;
-  uint32_t* occupation_table = (uint32_t*) OCCUPATION_TABLE;
-
+  
   if(addr_n_free_pages != (uint32_t) NULL){
     for(unsigned int i = 0; i<size; i++){
-      addr_free_frame = find_one_free_frame(process);
+      addr_free_frame = find_one_free_frame();
       if(addr_free_frame != (uint32_t) NULL){
 	add_translation(addr_n_free_pages, addr_free_frame);
 	addr_n_free_pages++;
@@ -242,6 +239,18 @@ Fonction 2 : find_one_free_frame
     /* 	/\*     //modifier la table d'occupation *\/ */
     /* 	/\*     break; *\/ */
     /* 	/\* } *\/ */
+}
+
+void vmem_free(uint32_t addr, unsigned int nb_pages){
+
+  int limit = addr+(nb_pages*PAGE_SIZE);
+
+  for (uint32_t i = addr ; i <= limit ; i += PAGE_SIZE) {
+    uint32_t addr_frame = vmem_translate(i, NULL);
+    add_translation(i, 0);
+    *(occupation_table + addr_frame)=0;
+  }
+    
 }
 
 

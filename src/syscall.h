@@ -51,6 +51,8 @@
 
 void* sys_mmap(unsigned int size);
 
+void sys_munmap(void* addr, unsigned int nb_pages);
+
 #endif // SYSCALL_H
 
 

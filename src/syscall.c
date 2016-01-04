@@ -25,6 +25,7 @@
 #define SYS_SETTIME 3
 #define SYS_GETTIME 4
 #define SYS_MMAP 15
+#define SYS_MUNMAP 16
 
 //------------------------------------------------------------------ Types
 
@@ -53,6 +54,7 @@ void do_sys_settime(int stackPointer);
 void do_sys_gettime(int stackPointer);
 void pouet();
 void do_sys_mmap(int stackPointer);
+void do_sys_munmap(int stackPointer);
 
 
 void __attribute__((naked)) swi_handler()
@@ -92,6 +94,10 @@ void __attribute__((naked)) swi_handler()
   case SYS_MMAP :
     do_sys_mmap(stackPointer);
     break;
+  case SYS_MUNMAP :
+    do_sys_munmap(stackPointer);
+    break;
+   
   default:
 
     PANIC();
@@ -100,6 +106,21 @@ void __attribute__((naked)) swi_handler()
   __asm("ldmfd sp!, {r0-r12,pc}^");
 
 }
+
+void
+sys_munmap(void* addr, unsigned int nb_pages){
+
+  int call = SYS_MUNMAP;
+
+  __asm("mov r0, %0"::"r"(call));
+  __asm("mov r2, %0"::"r"(addr));
+  __asm("mov r3, %0"::"r"(nb_pages));  
+  __asm("SWI #0"); //interrupt mode
+
+  return;
+
+}
+
 
 void sys_settime (uint64_t date_ms)
 {
@@ -216,8 +237,6 @@ void do_sys_nop()
 void do_sys_settime(int stackPointer)
 {
 
-
-
   uint32_t low_bits = 0;
   uint32_t high_bits = 0;
 
@@ -266,5 +285,19 @@ void do_sys_gettime(int stackPointer)
 
 }
 
+void do_sys_munmap(int stackPointer)
+{
+  uint32_t addr = 0;
+  unsigned int nb_pages = 0;
+  __asm("mov r1, %0"::"r"(stackPointer)); //first argument
+  __asm("ldr %0, [r1, #4]":"=r"(addr)); //first argument is at sp+4
+  __asm("mov r1, %0"::"r"(stackPointer)); //first argument
+  __asm("ldr %0, [r1, #8]":"=r"(nb_pages)); //argument on 64bits
+
+  vmem_free(addr, nb_pages);
+
+  return;
+
+}
 
 

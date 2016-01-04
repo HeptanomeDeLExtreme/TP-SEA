@@ -1,13 +1,13 @@
 
 #include "banane.h"
 
-const int PAGE_SIZE = 4;
-const int SECON_LVL_TT_COUN = 256;
-const int SECON_LVL_TT_SIZE = 1024;
-const int FIRST_LVL_TT_COUN = 4096;
-const int FIRST_LVL_TT_SIZE = 16384;
-const int TAILLE = 0x20FFFFFF;
-const int PAGE_NUMBER = 0x8400000;
+#define PAGE_SIZE  4096
+#define SECON_LVL_TT_COUN  256
+#define SECON_LVL_TT_SIZE  1024
+#define FIRST_LVL_TT_COUN  4096
+#define FIRST_LVL_TT_SIZE  16384
+#define PHY_SPACE_SIZE  0x20FFFFFF
+#define FRAME_NUMBER  PHY_SPACE_SIZE / PAGE_SIZE
 
 // First translation table flags
 uint32_t first_table_flags =
@@ -53,7 +53,7 @@ uint32_t
 find_n_free_pages(struct pcb_s* process, unsigned int nb_pages);
 
 uint32_t
-find_one_free_frame(struct pcb_s* process);
+find_one_free_frame();
 
 uint32_t
 vmem_translate(uint32_t va, struct pcb_s* process);

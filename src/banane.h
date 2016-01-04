@@ -1,5 +1,4 @@
 uint32_t MMUTABLEBASE;
-uint32_t OCCUPATION_TABLE;
 
 struct pcb_s
 {
@@ -35,3 +34,5 @@ void vmem_init();
 uint32_t vmem_translate(uint32_t va, struct pcb_s* process); 
 
 uint8_t* vmem_alloc_for_userland(struct pcb_s* process, unsigned int size);
+
+void vmem_free(uint32_t addr, unsigned int nb_pages);

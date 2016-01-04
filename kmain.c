@@ -182,7 +182,8 @@ int kmain (void)
 	/* adresse1 = adresse2 + adresse3; */
 	/* adresse1 = adresse1*2; */
 
-    sys_mmap(4);
+    uint32_t* alloc = sys_mmap(4);
+    sys_munmap(alloc, 4);
     sys_exit(0);
 
 
