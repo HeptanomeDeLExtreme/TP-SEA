@@ -84,7 +84,7 @@ void commandProcess()
 	else if(resultMusic == 0) 
 	{
 		drawString("Quelle douce musique...", 23);
-		audio_test();
+		// TODO : Lancer la fonction dans pwm qui lance la musique
 	}
 	else
 	{
