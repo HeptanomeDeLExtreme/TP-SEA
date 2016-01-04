@@ -55,7 +55,7 @@ build/%.o: src/%.s | build
 	arm-none-eabi-as -g $(COMMON_FLAGS) $< -c -o $@
 
 # édition de liens
-build/kernel.elf: $(OBJECTS) build/kmain.o tune.o
+build/kernel.elf: $(OBJECTS) build/kmain.o tune1.o tune2.o tune3.o
 	arm-none-eabi-ld $^ -o $@ -T src/sysif.ld -Map build/mapfile.map
 
 # conversion de l'image pour transfert sur carte SD
@@ -71,5 +71,11 @@ build/kernel.list: build/kernel.elf
 clean:
 	rm -rf build
 
-tune.o : tune.wav
+tune1.o : tune1.wav
+	arm-none-eabi-ld -s -r -o $@ -b binary $^
+
+tune2.o : tune2.wav
+	arm-none-eabi-ld -s -r -o $@ -b binary $^
+
+tune3.o : tune3.wav
 	arm-none-eabi-ld -s -r -o $@ -b binary $^
