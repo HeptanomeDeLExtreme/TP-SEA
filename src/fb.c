@@ -377,3 +377,8 @@ void drawError(char * string, int length)
 	setColor(oldRed,oldGreen,oldBlue);
 	setColor(oldRed,oldGreen,oldBlue);
 }
+
+void increaseOffsetY()
+{
+	offsetY++;
+}

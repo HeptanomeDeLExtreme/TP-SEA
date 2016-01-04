@@ -66,7 +66,7 @@ LOAD tune.o
                 0x0000000000000200                IRQ_STACK_SIZE = 0x200
                 0x0000000000100000                USER_STACKS_SIZE = 0x100000
 
-.text           0x0000000000008000     0x9d94
+.text           0x0000000000008000     0x9fe4
  build/init.o(.text*)
  .text          0x0000000000008000       0xc4 build/init.o
                 0x0000000000008000                _start
@@ -77,7 +77,7 @@ LOAD tune.o
                 0x00000000000080d4                delay
                 0x00000000000080e8                memory_barrier
                 0x0000000000008100                invalidate_cache
- .text          0x000000000000810c      0xe7c build/fb.o
+ .text          0x000000000000810c      0xe98 build/fb.o
                 0x0000000000008160                MailboxWrite
                 0x00000000000081d8                MailboxRead
                 0x0000000000008278                FramebufferInitialize
@@ -97,338 +97,346 @@ LOAD tune.o
                 0x0000000000008dfc                clear
                 0x0000000000008e98                setColor
                 0x0000000000008eec                drawError
- .text          0x0000000000008f88      0x3a4 build/hw.o
-                0x0000000000008f88                divide
-                0x0000000000008ff0                get_date_ms
-                0x0000000000009014                set_date_ms
-                0x00000000000090ac                set_next_tick
-                0x0000000000009104                set_next_tick_default
-                0x0000000000009150                timer_init
-                0x000000000000917c                led_on
-                0x00000000000091b8                led_off
-                0x00000000000091f4                led_switch
-                0x0000000000009220                led_status
-                0x0000000000009234                led_init
-                0x0000000000009268                led_blink
-                0x00000000000092fc                hw_init
-                0x000000000000930c                terminate_kernel
- .text          0x000000000000932c      0x144 build/keyboard.o
-                0x000000000000932c                KeyboardUpdate
-                0x00000000000093b0                KeyWasDown
-                0x00000000000093e0                KeyboardGetChar
- .text          0x0000000000009470      0x360 build/kheap.o
-                0x0000000000009470                aligned_value
-                0x00000000000094bc                kAlloc_aligned
-                0x0000000000009670                kAlloc
-                0x000000000000975c                kFree
-                0x00000000000097a4                kheap_init
- .text          0x00000000000097d0      0x234 build/pwm.o
-                0x0000000000009950                audio_test
- .text          0x0000000000009a04      0x690 build/sched.o
-                0x0000000000009a04                irq_handler
-                0x0000000000009a90                sys_exit
-                0x0000000000009abc                do_sys_exit
-                0x0000000000009b64                sys_yield
-                0x0000000000009b84                do_sys_yield
-                0x0000000000009ce8                sched_init
-                0x0000000000009d20                create_process
-                0x0000000000009dd0                elect
-                0x0000000000009dec                pouetpouet
-                0x0000000000009df0                sys_yieldto
-                0x0000000000009e20                do_sys_yieldto
- .text          0x000000000000a094      0x298 build/syscall.o
-                0x000000000000a094                swi_handler
-                0x000000000000a174                sys_settime
-                0x000000000000a1ac                sys_gettime
-                0x000000000000a21c                sys_reboot
-                0x000000000000a23c                pouet
-                0x000000000000a240                sys_nop
-                0x000000000000a26c                do_sys_reboot
-                0x000000000000a278                do_sys_nop
-                0x000000000000a280                do_sys_settime
-                0x000000000000a2fc                do_sys_gettime
- .text          0x000000000000a32c      0x658 build/uart.o
-                0x000000000000a32c                uart_init
-                0x000000000000a448                uart_send_str
-                0x000000000000a4dc                uart_send_int
-                0x000000000000a6cc                uart_receive_str
-                0x000000000000a7a8                uart_receive_int
-                0x000000000000a950                uart_is_receive_fifo_empty
- .text          0x000000000000a984       0x10 build/util.o
-                0x000000000000a984                kernel_panic
- .text          0x000000000000a994      0x57c build/kmain.o
-                0x000000000000a994                strcmp
-                0x000000000000aa08                testAffichage
-                0x000000000000aa74                commandProcess
-                0x000000000000aca4                applyMethod
-                0x000000000000acd4                keyboardLoop
-                0x000000000000ae80                printHeader
-                0x000000000000aea4                dummy
-                0x000000000000aec0                kmain
- .text          0x000000000000af10     0x1000 ./libcsud.a(device.keyboard.c.o)
-                0x000000000000af10                KeyboardDetached
-                0x000000000000af8c                KeyboardDeallocate
-                0x000000000000b004                KeyboardIndex
-                0x000000000000b05c                KeyboardGetAddress
-                0x000000000000b0a4                KeyboardScan
-                0x000000000000b770                KeyboardCount
-                0x000000000000b780                KeyboardSetLeds
-                0x000000000000b99c                KeyboardGetLedSupport
-                0x000000000000b9e8                KeyboardPoll
-                0x000000000000bd2c                KeyboardGetModifiers
-                0x000000000000bd78                KeyboardGetKeyDownCount
-                0x000000000000bddc                KeyboadGetKeyIsDown
-                0x000000000000be94                KeyboardGetKeyDown
- .text          0x000000000000bf10      0x5c0 ./libcsud.a(platform.c.o)
-                0x000000000000bf10                MemoryReserve
-                0x000000000000bf18                MemoryAllocate
-                0x000000000000c368                MemoryDeallocate
-                0x000000000000c480                MemoryCopy
- .text          0x000000000000c4d0     0x10e8 ./libcsud.a(usbd.c.o)
-                0x000000000000c4d0                UsbGetRootHub
-                0x000000000000c4e0                UsbPrintDeviceTree
-                0x000000000000c5ac                UsbControlMessage
-                0x000000000000c6a4                UsbGetDescriptor
-                0x000000000000c790                UsbGetString
-                0x000000000000c7fc                UsbReadStringLang
-                0x000000000000c880                UsbReadString
-                0x000000000000c980                UsbReadDeviceDescriptor
-                0x000000000000cac0                UsbSetAddress
-                0x000000000000cba0                UsbSetConfiguration
-                0x000000000000cc74                UsbConfigure
-                0x000000000000ce44                UsbGetDescription
-                0x000000000000d0f4                UsbScanDevice
-                0x000000000000d31c                UsbAllocateDevice
-                0x000000000000d3d8                UsbDeallocateDevice
-                0x000000000000d4f0                UsbScanRootHub
-                0x000000000000d540                UsbInitialise
-                0x000000000000d59c                UsbCheckForChange
- .text          0x000000000000d5b8     0x1b24 ./libcsud.a(device.hid.c.o)
-                0x000000000000d5b8                HidEnumerateActionCountField
-                0x000000000000d6e0                HidDetached
-                0x000000000000d71c                HidEnumerateActionAddField
-                0x000000000000df24                HidDeallocate
-                0x000000000000e078                HidEnumerateActionCountReport
-                0x000000000000e130                HidGetReport
-                0x000000000000e1ec                HidSetReport
-                0x000000000000e29c                BitSet
-                0x000000000000e3c8                BitGetUnsigned
-                0x000000000000e4d0                BitGetSigned
-                0x000000000000e4fc                HidReadDevice
-                0x000000000000e6f8                HidWriteDevice
-                0x000000000000e8a4                HidSetProtocol
-                0x000000000000e954                HidEnumerateReport
-                0x000000000000eaac                HidParseReportDescriptor
-                0x000000000000eddc                HidScan
-                0x000000000000f0cc                HidGetFieldValue
- .text          0x000000000000f0dc      0xd34 ./libcsud.a(device.hub.c.o)
-                0x000000000000f0dc                HubDetached
-                0x000000000000f17c                HubDeallocate
-                0x000000000000f258                HubReadDescriptor
-                0x000000000000f350                HubGetStatus
-                0x000000000000f428                HubPortGetStatus
-                0x000000000000f508                HubChangeFeature
-                0x000000000000f5bc                HubChangePortFeature
-                0x000000000000f678                HubPowerOn
-                0x000000000000f720                HubPortReset
-                0x000000000000f7f4                HubPortConnectionChanged
-                0x000000000000f9fc                HubCheckConnection
-                0x000000000000fb30                HubRecursiveCheck
-                0x000000000000fbf8                HubScan
- .text          0x000000000000fe10     0x160c ./libcsud.a(hcd.designware20.c.o)
-                0x000000000000fe10                WriteThroughRegMask
-                0x000000000000fea4                WriteThroughReg
-                0x000000000000feac                ReadBackReg
-                0x000000000000ff50                ClearReg
-                0x000000000000ffb8                SetReg
-                0x0000000000010054                HcdReset
-                0x0000000000010104                HcdTransmitFifoFlush
-                0x0000000000010198                HcdReceiveFifoFlush
-                0x0000000000010210                HcdPrepareChannel
-                0x0000000000010528                HcdTransmitChannel
-                0x00000000000105d4                HcdChannelInterruptToError
-                0x00000000000106b0                HcdChannelSendWaitOne
-                0x000000000001096c                HcdChannelSendWait
-                0x0000000000010a84                HcdSumbitControlMessage
-                0x0000000000010ccc                HcdInitialise
-                0x0000000000010e60                HcdStart
-                0x00000000000113bc                HcdStop
-                0x00000000000113e0                HcdDeinitialise
- .text          0x000000000001141c      0x6f0 ./libcsud.a(hcd.designware20.roothub.c.o)
-                0x000000000001141c                HcdProcessRootHubMessage
- .text          0x0000000000011b0c      0x16c ./libcsud.a(platform.armv6.c.o)
-                0x0000000000011b0c                __aeabi_uidivmod
-                0x0000000000011c40                __aeabi_uidiv
- .text          0x0000000000011c78      0x11c ./libcsud.a(platform.broadcom2835.c.o)
-                0x0000000000011c78                MicroDelay
-                0x0000000000011ce8                PowerOnUsb
-                0x0000000000011d94                __bss_start = .
+                0x0000000000008f88                increaseOffsetY
+ .text          0x0000000000008fa4      0x3a4 build/hw.o
+                0x0000000000008fa4                divide
+                0x000000000000900c                get_date_ms
+                0x0000000000009030                set_date_ms
+                0x00000000000090c8                set_next_tick
+                0x0000000000009120                set_next_tick_default
+                0x000000000000916c                timer_init
+                0x0000000000009198                led_on
+                0x00000000000091d4                led_off
+                0x0000000000009210                led_switch
+                0x000000000000923c                led_status
+                0x0000000000009250                led_init
+                0x0000000000009284                led_blink
+                0x0000000000009318                hw_init
+                0x0000000000009328                terminate_kernel
+ .text          0x0000000000009348      0x144 build/keyboard.o
+                0x0000000000009348                KeyboardUpdate
+                0x00000000000093cc                KeyWasDown
+                0x00000000000093fc                KeyboardGetChar
+ .text          0x000000000000948c      0x360 build/kheap.o
+                0x000000000000948c                aligned_value
+                0x00000000000094d8                kAlloc_aligned
+                0x000000000000968c                kAlloc
+                0x0000000000009778                kFree
+                0x00000000000097c0                kheap_init
+ .text          0x00000000000097ec      0x234 build/pwm.o
+                0x000000000000996c                audio_test
+ .text          0x0000000000009a20      0x690 build/sched.o
+                0x0000000000009a20                irq_handler
+                0x0000000000009aac                sys_exit
+                0x0000000000009ad8                do_sys_exit
+                0x0000000000009b80                sys_yield
+                0x0000000000009ba0                do_sys_yield
+                0x0000000000009d04                sched_init
+                0x0000000000009d3c                create_process
+                0x0000000000009dec                elect
+                0x0000000000009e08                pouetpouet
+                0x0000000000009e0c                sys_yieldto
+                0x0000000000009e3c                do_sys_yieldto
+ .text          0x000000000000a0b0      0x298 build/syscall.o
+                0x000000000000a0b0                swi_handler
+                0x000000000000a190                sys_settime
+                0x000000000000a1c8                sys_gettime
+                0x000000000000a238                sys_reboot
+                0x000000000000a258                pouet
+                0x000000000000a25c                sys_nop
+                0x000000000000a288                do_sys_reboot
+                0x000000000000a294                do_sys_nop
+                0x000000000000a29c                do_sys_settime
+                0x000000000000a318                do_sys_gettime
+ .text          0x000000000000a348      0x658 build/uart.o
+                0x000000000000a348                uart_init
+                0x000000000000a464                uart_send_str
+                0x000000000000a4f8                uart_send_int
+                0x000000000000a6e8                uart_receive_str
+                0x000000000000a7c4                uart_receive_int
+                0x000000000000a96c                uart_is_receive_fifo_empty
+ .text          0x000000000000a9a0       0x10 build/util.o
+                0x000000000000a9a0                kernel_panic
+ .text          0x000000000000a9b0      0x7b0 build/kmain.o
+                0x000000000000a9b0                drawSnoop
+                0x000000000000ab30                printSnoop
+                0x000000000000abe0                strcmp
+                0x000000000000ac54                testAffichage
+                0x000000000000acc0                commandProcess
+                0x000000000000aef0                applyMethod
+                0x000000000000af20                keyboardLoop
+                0x000000000000b0cc                printHeader
+                0x000000000000b0f0                dummy
+                0x000000000000b10c                kmain
+ .text          0x000000000000b160     0x1000 ./libcsud.a(device.keyboard.c.o)
+                0x000000000000b160                KeyboardDetached
+                0x000000000000b1dc                KeyboardDeallocate
+                0x000000000000b254                KeyboardIndex
+                0x000000000000b2ac                KeyboardGetAddress
+                0x000000000000b2f4                KeyboardScan
+                0x000000000000b9c0                KeyboardCount
+                0x000000000000b9d0                KeyboardSetLeds
+                0x000000000000bbec                KeyboardGetLedSupport
+                0x000000000000bc38                KeyboardPoll
+                0x000000000000bf7c                KeyboardGetModifiers
+                0x000000000000bfc8                KeyboardGetKeyDownCount
+                0x000000000000c02c                KeyboadGetKeyIsDown
+                0x000000000000c0e4                KeyboardGetKeyDown
+ .text          0x000000000000c160      0x5c0 ./libcsud.a(platform.c.o)
+                0x000000000000c160                MemoryReserve
+                0x000000000000c168                MemoryAllocate
+                0x000000000000c5b8                MemoryDeallocate
+                0x000000000000c6d0                MemoryCopy
+ .text          0x000000000000c720     0x10e8 ./libcsud.a(usbd.c.o)
+                0x000000000000c720                UsbGetRootHub
+                0x000000000000c730                UsbPrintDeviceTree
+                0x000000000000c7fc                UsbControlMessage
+                0x000000000000c8f4                UsbGetDescriptor
+                0x000000000000c9e0                UsbGetString
+                0x000000000000ca4c                UsbReadStringLang
+                0x000000000000cad0                UsbReadString
+                0x000000000000cbd0                UsbReadDeviceDescriptor
+                0x000000000000cd10                UsbSetAddress
+                0x000000000000cdf0                UsbSetConfiguration
+                0x000000000000cec4                UsbConfigure
+                0x000000000000d094                UsbGetDescription
+                0x000000000000d344                UsbScanDevice
+                0x000000000000d56c                UsbAllocateDevice
+                0x000000000000d628                UsbDeallocateDevice
+                0x000000000000d740                UsbScanRootHub
+                0x000000000000d790                UsbInitialise
+                0x000000000000d7ec                UsbCheckForChange
+ .text          0x000000000000d808     0x1b24 ./libcsud.a(device.hid.c.o)
+                0x000000000000d808                HidEnumerateActionCountField
+                0x000000000000d930                HidDetached
+                0x000000000000d96c                HidEnumerateActionAddField
+                0x000000000000e174                HidDeallocate
+                0x000000000000e2c8                HidEnumerateActionCountReport
+                0x000000000000e380                HidGetReport
+                0x000000000000e43c                HidSetReport
+                0x000000000000e4ec                BitSet
+                0x000000000000e618                BitGetUnsigned
+                0x000000000000e720                BitGetSigned
+                0x000000000000e74c                HidReadDevice
+                0x000000000000e948                HidWriteDevice
+                0x000000000000eaf4                HidSetProtocol
+                0x000000000000eba4                HidEnumerateReport
+                0x000000000000ecfc                HidParseReportDescriptor
+                0x000000000000f02c                HidScan
+                0x000000000000f31c                HidGetFieldValue
+ .text          0x000000000000f32c      0xd34 ./libcsud.a(device.hub.c.o)
+                0x000000000000f32c                HubDetached
+                0x000000000000f3cc                HubDeallocate
+                0x000000000000f4a8                HubReadDescriptor
+                0x000000000000f5a0                HubGetStatus
+                0x000000000000f678                HubPortGetStatus
+                0x000000000000f758                HubChangeFeature
+                0x000000000000f80c                HubChangePortFeature
+                0x000000000000f8c8                HubPowerOn
+                0x000000000000f970                HubPortReset
+                0x000000000000fa44                HubPortConnectionChanged
+                0x000000000000fc4c                HubCheckConnection
+                0x000000000000fd80                HubRecursiveCheck
+                0x000000000000fe48                HubScan
+ .text          0x0000000000010060     0x160c ./libcsud.a(hcd.designware20.c.o)
+                0x0000000000010060                WriteThroughRegMask
+                0x00000000000100f4                WriteThroughReg
+                0x00000000000100fc                ReadBackReg
+                0x00000000000101a0                ClearReg
+                0x0000000000010208                SetReg
+                0x00000000000102a4                HcdReset
+                0x0000000000010354                HcdTransmitFifoFlush
+                0x00000000000103e8                HcdReceiveFifoFlush
+                0x0000000000010460                HcdPrepareChannel
+                0x0000000000010778                HcdTransmitChannel
+                0x0000000000010824                HcdChannelInterruptToError
+                0x0000000000010900                HcdChannelSendWaitOne
+                0x0000000000010bbc                HcdChannelSendWait
+                0x0000000000010cd4                HcdSumbitControlMessage
+                0x0000000000010f1c                HcdInitialise
+                0x00000000000110b0                HcdStart
+                0x000000000001160c                HcdStop
+                0x0000000000011630                HcdDeinitialise
+ .text          0x000000000001166c      0x6f0 ./libcsud.a(hcd.designware20.roothub.c.o)
+                0x000000000001166c                HcdProcessRootHubMessage
+ .text          0x0000000000011d5c      0x16c ./libcsud.a(platform.armv6.c.o)
+                0x0000000000011d5c                __aeabi_uidivmod
+                0x0000000000011e90                __aeabi_uidiv
+ .text          0x0000000000011ec8      0x11c ./libcsud.a(platform.broadcom2835.c.o)
+                0x0000000000011ec8                MicroDelay
+                0x0000000000011f38                PowerOnUsb
+                0x0000000000011fe4                __bss_start = .
 
-.glue_7         0x0000000000011d94        0x0
+.glue_7         0x0000000000011fe4        0x0
  .glue_7        0x0000000000000000        0x0 linker stubs
 
-.glue_7t        0x0000000000011d94        0x0
+.glue_7t        0x0000000000011fe4        0x0
  .glue_7t       0x0000000000000000        0x0 linker stubs
 
-.vfp11_veneer   0x0000000000011d94        0x0
+.vfp11_veneer   0x0000000000011fe4        0x0
  .vfp11_veneer  0x0000000000000000        0x0 linker stubs
 
-.v4_bx          0x0000000000011d94        0x0
+.v4_bx          0x0000000000011fe4        0x0
  .v4_bx         0x0000000000000000        0x0 linker stubs
 
-.iplt           0x0000000000011d94        0x0
+.iplt           0x0000000000011fe4        0x0
  .iplt          0x0000000000000000        0x0 build/asm_tools.o
 
-.bss            0x0000000000011d98     0x5108
+.bss            0x0000000000011fe8     0x5108
  *(.bss*)
- .bss           0x0000000000011d98        0x0 build/asm_tools.o
- .bss           0x0000000000011d98       0x20 build/fb.o
-                0x0000000000011d98                offsetX
-                0x0000000000011d9c                offsetY
- .bss           0x0000000000011db8        0x4 build/hw.o
- .bss           0x0000000000011dbc        0x0 build/init.o
- .bss           0x0000000000011dbc        0x0 build/keyboard.o
- .bss           0x0000000000011dbc        0x4 build/kheap.o
-                0x0000000000011dbc                freelist
- .bss           0x0000000000011dc0        0x0 build/pwm.o
- .bss           0x0000000000011dc0        0x0 build/sched.o
- .bss           0x0000000000011dc0        0x0 build/syscall.o
- .bss           0x0000000000011dc0        0x0 build/uart.o
- .bss           0x0000000000011dc0        0x0 build/util.o
- .bss           0x0000000000011dc0       0x10 build/kmain.o
-                0x0000000000011dc0                commandLineSize
-                0x0000000000011dc4                commandSize
-                0x0000000000011dc8                parametersSize
-                0x0000000000011dcc                historySize
- .bss           0x0000000000011dd0       0x14 ./libcsud.a(device.keyboard.c.o)
-                0x0000000000011dd0                keyboardAddresses
-                0x0000000000011de0                keyboardCount
- .bss           0x0000000000011de4        0x8 ./libcsud.a(platform.c.o)
-                0x0000000000011de4                FirstFreeAllocation
-                0x0000000000011de8                allocated
- .bss           0x0000000000011dec        0x4 ./libcsud.a(usbd.c.o)
-                0x0000000000011dec                RootHub
- .bss           0x0000000000011df0        0x0 ./libcsud.a(device.hid.c.o)
- .bss           0x0000000000011df0        0x0 ./libcsud.a(device.hub.c.o)
- .bss           0x0000000000011df0       0x14 ./libcsud.a(hcd.designware20.c.o)
-                0x0000000000011df0                Core
-                0x0000000000011df4                Host
-                0x0000000000011df8                Power
-                0x0000000000011dfc                databuffer
-                0x0000000000011e00                PhyInitialised
- .bss           0x0000000000011e04        0x4 ./libcsud.a(hcd.designware20.roothub.c.o)
-                0x0000000000011e04                RootHubDeviceNumber
- .bss           0x0000000000011e08        0x0 ./libcsud.a(platform.armv6.c.o)
- .bss           0x0000000000011e08        0x0 ./libcsud.a(platform.broadcom2835.c.o)
- COMMON         0x0000000000011e08        0x8 build/kheap.o
-                0x0000000000011e08                kernel_heap_limit
-                0x0000000000011e0c                kernel_heap_top
- COMMON         0x0000000000011e10       0x64 build/sched.o
-                0x0000000000011e10                lr_irq
-                0x0000000000011e14                kmain_process
-                0x0000000000011e6c                stackPointer2
-                0x0000000000011e70                current_process
- COMMON         0x0000000000011e74        0x8 build/syscall.o
-                0x0000000000011e74                call
-                0x0000000000011e78                stackPointer
- COMMON         0x0000000000011e7c        0x4 build/uart.o
-                0x0000000000011e7c                uart_error
- COMMON         0x0000000000011e80      0x400 build/kmain.o
-                0x0000000000011e80                commandLine
-                0x0000000000011f80                command
-                0x0000000000012080                history
-                0x0000000000012180                parameters
- COMMON         0x0000000000012280       0x10 ./libcsud.a(device.keyboard.c.o)
-                0x0000000000012280                keyboards
- COMMON         0x0000000000012290     0x4c00 ./libcsud.a(platform.c.o)
-                0x0000000000012290                Heap
-                0x0000000000016290                Allocations
- COMMON         0x0000000000016e90        0x4 ./libcsud.a(usbd.c.o)
-                0x0000000000016e90                DeviceNumbers
- COMMON         0x0000000000016e94        0xc ./libcsud.a(hcd.designware20.c.o)
-                0x0000000000016e94                CorePhysical
-                0x0000000000016e98                HostPhysical
-                0x0000000000016e9c                PowerPhysical
-                0x0000000000016ea0                __bss_end__ = .
-                0x0000000000016ea0                __rodata_start__ = .
+ .bss           0x0000000000011fe8        0x0 build/asm_tools.o
+ .bss           0x0000000000011fe8       0x20 build/fb.o
+                0x0000000000011fe8                offsetX
+                0x0000000000011fec                offsetY
+ .bss           0x0000000000012008        0x4 build/hw.o
+ .bss           0x000000000001200c        0x0 build/init.o
+ .bss           0x000000000001200c        0x0 build/keyboard.o
+ .bss           0x000000000001200c        0x4 build/kheap.o
+                0x000000000001200c                freelist
+ .bss           0x0000000000012010        0x0 build/pwm.o
+ .bss           0x0000000000012010        0x0 build/sched.o
+ .bss           0x0000000000012010        0x0 build/syscall.o
+ .bss           0x0000000000012010        0x0 build/uart.o
+ .bss           0x0000000000012010        0x0 build/util.o
+ .bss           0x0000000000012010       0x10 build/kmain.o
+                0x0000000000012010                commandLineSize
+                0x0000000000012014                commandSize
+                0x0000000000012018                parametersSize
+                0x000000000001201c                historySize
+ .bss           0x0000000000012020       0x14 ./libcsud.a(device.keyboard.c.o)
+                0x0000000000012020                keyboardAddresses
+                0x0000000000012030                keyboardCount
+ .bss           0x0000000000012034        0x8 ./libcsud.a(platform.c.o)
+                0x0000000000012034                FirstFreeAllocation
+                0x0000000000012038                allocated
+ .bss           0x000000000001203c        0x4 ./libcsud.a(usbd.c.o)
+                0x000000000001203c                RootHub
+ .bss           0x0000000000012040        0x0 ./libcsud.a(device.hid.c.o)
+ .bss           0x0000000000012040        0x0 ./libcsud.a(device.hub.c.o)
+ .bss           0x0000000000012040       0x14 ./libcsud.a(hcd.designware20.c.o)
+                0x0000000000012040                Core
+                0x0000000000012044                Host
+                0x0000000000012048                Power
+                0x000000000001204c                databuffer
+                0x0000000000012050                PhyInitialised
+ .bss           0x0000000000012054        0x4 ./libcsud.a(hcd.designware20.roothub.c.o)
+                0x0000000000012054                RootHubDeviceNumber
+ .bss           0x0000000000012058        0x0 ./libcsud.a(platform.armv6.c.o)
+ .bss           0x0000000000012058        0x0 ./libcsud.a(platform.broadcom2835.c.o)
+ COMMON         0x0000000000012058        0x8 build/kheap.o
+                0x0000000000012058                kernel_heap_limit
+                0x000000000001205c                kernel_heap_top
+ COMMON         0x0000000000012060       0x64 build/sched.o
+                0x0000000000012060                lr_irq
+                0x0000000000012064                kmain_process
+                0x00000000000120bc                stackPointer2
+                0x00000000000120c0                current_process
+ COMMON         0x00000000000120c4        0x8 build/syscall.o
+                0x00000000000120c4                call
+                0x00000000000120c8                stackPointer
+ COMMON         0x00000000000120cc        0x4 build/uart.o
+                0x00000000000120cc                uart_error
+ COMMON         0x00000000000120d0      0x400 build/kmain.o
+                0x00000000000120d0                commandLine
+                0x00000000000121d0                command
+                0x00000000000122d0                history
+                0x00000000000123d0                parameters
+ COMMON         0x00000000000124d0       0x10 ./libcsud.a(device.keyboard.c.o)
+                0x00000000000124d0                keyboards
+ COMMON         0x00000000000124e0     0x4c00 ./libcsud.a(platform.c.o)
+                0x00000000000124e0                Heap
+                0x00000000000164e0                Allocations
+ COMMON         0x00000000000170e0        0x4 ./libcsud.a(usbd.c.o)
+                0x00000000000170e0                DeviceNumbers
+ COMMON         0x00000000000170e4        0xc ./libcsud.a(hcd.designware20.c.o)
+                0x00000000000170e4                CorePhysical
+                0x00000000000170e8                HostPhysical
+                0x00000000000170ec                PowerPhysical
+                0x00000000000170f0                __bss_end__ = .
+                0x00000000000170f0                __rodata_start__ = .
 
-.rodata         0x0000000000016ea0      0x320
+.rodata         0x00000000000170f0     0x1314
  *(.rodata*)
- .rodata        0x0000000000016ea0       0x34 build/fb.o
- .rodata        0x0000000000016ed4       0x18 build/hw.o
- .rodata        0x0000000000016eec       0x10 build/syscall.o
- .rodata        0x0000000000016efc       0x28 build/uart.o
- .rodata        0x0000000000016f24       0x44 build/kmain.o
- .rodata        0x0000000000016f68      0x248 ./libcsud.a(usbd.c.o)
+ .rodata        0x00000000000170f0       0x34 build/fb.o
+ .rodata        0x0000000000017124       0x18 build/hw.o
+ .rodata        0x000000000001713c       0x10 build/syscall.o
+ .rodata        0x000000000001714c       0x28 build/uart.o
+ .rodata        0x0000000000017174     0x1038 build/kmain.o
+ .rodata        0x00000000000181ac      0x248 ./libcsud.a(usbd.c.o)
  .rodata.str1.4
-                0x00000000000171b0       0x10 ./libcsud.a(usbd.c.o)
-                0x00000000000171c0                __rodata_end__ = .
-                0x00000000000171c0                __data_start__ = .
+                0x00000000000183f4       0x10 ./libcsud.a(usbd.c.o)
+                0x0000000000018404                __rodata_end__ = .
+                0x0000000000018404                __data_start__ = .
 
-.rel.dyn        0x00000000000171c0        0x0
+.rel.dyn        0x0000000000018404        0x0
  .rel.iplt      0x0000000000000000        0x0 build/asm_tools.o
 
-.data           0x00000000000171c0     0xa448
+.data           0x0000000000018408     0xa4b4
  *(.data)
- .data          0x00000000000171c0        0x0 build/asm_tools.o
- .data          0x00000000000171c0      0x404 build/fb.o
-                0x00000000000171c0                font8x8_basic
-                0x00000000000175c0                redC
-                0x00000000000175c1                greenC
-                0x00000000000175c2                blueC
- .data          0x00000000000175c4        0x0 build/hw.o
- .data          0x00000000000175c4        0x0 build/init.o
- *fill*         0x00000000000175c4        0x4 
- .data          0x00000000000175c8       0xe0 build/keyboard.o
- .data          0x00000000000176a8        0x0 build/kheap.o
- .data          0x00000000000176a8       0x10 build/pwm.o
-                0x00000000000176b4                audio_data
- .data          0x00000000000176b8        0x0 build/sched.o
- .data          0x00000000000176b8        0x0 build/syscall.o
- .data          0x00000000000176b8        0x0 build/uart.o
- .data          0x00000000000176b8        0x0 build/util.o
- .data          0x00000000000176b8        0x0 build/kmain.o
- .data          0x00000000000176b8     0x9ee5 tune.o
-                0x00000000000176b8                _binary_tune_wav_start
-                0x000000000002159d                _binary_tune_wav_end
- .data          0x000000000002159d        0x0 ./libcsud.a(device.keyboard.c.o)
- *fill*         0x000000000002159d        0x3 
- .data          0x00000000000215a0        0x4 ./libcsud.a(platform.c.o)
-                0x00000000000215a0                FirstAllocation
- .data          0x00000000000215a4        0x0 ./libcsud.a(usbd.c.o)
- .data          0x00000000000215a4        0x0 ./libcsud.a(device.hid.c.o)
- .data          0x00000000000215a4        0x0 ./libcsud.a(device.hub.c.o)
- .data          0x00000000000215a4        0x0 ./libcsud.a(hcd.designware20.c.o)
- .data          0x00000000000215a4       0x64 ./libcsud.a(hcd.designware20.roothub.c.o)
-                0x00000000000215a4                DeviceDescriptor
-                0x00000000000215b8                ConfigurationDescriptor
-                0x00000000000215d4                String0
-                0x00000000000215d8                String1
-                0x00000000000215fc                HubDescriptor
- .data          0x0000000000021608        0x0 ./libcsud.a(platform.armv6.c.o)
- .data          0x0000000000021608        0x0 ./libcsud.a(platform.broadcom2835.c.o)
-                0x0000000000021608                __data_end__ = .
+ .data          0x0000000000018408        0x0 build/asm_tools.o
+ .data          0x0000000000018408      0x404 build/fb.o
+                0x0000000000018408                font8x8_basic
+                0x0000000000018808                redC
+                0x0000000000018809                greenC
+                0x000000000001880a                blueC
+ .data          0x000000000001880c        0x0 build/hw.o
+ .data          0x000000000001880c        0x0 build/init.o
+ *fill*         0x000000000001880c        0x4 
+ .data          0x0000000000018810       0xe0 build/keyboard.o
+ .data          0x00000000000188f0        0x0 build/kheap.o
+ .data          0x00000000000188f0       0x10 build/pwm.o
+                0x00000000000188fc                audio_data
+ .data          0x0000000000018900        0x0 build/sched.o
+ .data          0x0000000000018900        0x0 build/syscall.o
+ .data          0x0000000000018900        0x0 build/uart.o
+ .data          0x0000000000018900        0x0 build/util.o
+ .data          0x0000000000018900       0x6c build/kmain.o
+                0x0000000000018900                snoopIMG
+                0x0000000000018904                snoopLine
+                0x0000000000018908                snoopSize
+                0x000000000001890c                snoopWidth
+                0x0000000000018910                snoopArray
+ .data          0x000000000001896c     0x9ee5 tune.o
+                0x000000000001896c                _binary_tune_wav_start
+                0x0000000000022851                _binary_tune_wav_end
+ .data          0x0000000000022851        0x0 ./libcsud.a(device.keyboard.c.o)
+ *fill*         0x0000000000022851        0x3 
+ .data          0x0000000000022854        0x4 ./libcsud.a(platform.c.o)
+                0x0000000000022854                FirstAllocation
+ .data          0x0000000000022858        0x0 ./libcsud.a(usbd.c.o)
+ .data          0x0000000000022858        0x0 ./libcsud.a(device.hid.c.o)
+ .data          0x0000000000022858        0x0 ./libcsud.a(device.hub.c.o)
+ .data          0x0000000000022858        0x0 ./libcsud.a(hcd.designware20.c.o)
+ .data          0x0000000000022858       0x64 ./libcsud.a(hcd.designware20.roothub.c.o)
+                0x0000000000022858                DeviceDescriptor
+                0x000000000002286c                ConfigurationDescriptor
+                0x0000000000022888                String0
+                0x000000000002288c                String1
+                0x00000000000228b0                HubDescriptor
+ .data          0x00000000000228bc        0x0 ./libcsud.a(platform.armv6.c.o)
+ .data          0x00000000000228bc        0x0 ./libcsud.a(platform.broadcom2835.c.o)
+                0x00000000000228bc                __data_end__ = .
 
-.igot.plt       0x0000000000021608        0x0
+.igot.plt       0x00000000000228bc        0x0
  .igot.plt      0x0000000000000000        0x0 build/asm_tools.o
 
-.stack          0x0000000000021608      0x600
-                0x0000000000021608                __stack_start__ = .
-                0x0000000000021808                . = (. + KERNEL_STACK_SIZE)
- *fill*         0x0000000000021608      0x200 
-                0x0000000000021808                . = ALIGN (0x4)
-                0x0000000000021808                __svc_stack_end__ = .
-                0x0000000000021a08                . = (. + SYS_STACK_SIZE)
- *fill*         0x0000000000021808      0x200 
-                0x0000000000021a08                . = ALIGN (0x4)
-                0x0000000000021a08                __sys_stack_end__ = .
-                0x0000000000021c08                . = (. + IRQ_STACK_SIZE)
- *fill*         0x0000000000021a08      0x200 
-                0x0000000000021c08                . = ALIGN (0x4)
-                0x0000000000021c08                __irq_stack_end__ = .
-                0x0000000000021c08                __stacks_end__ = .
-                0x0000000000022000                . = ALIGN (0x1000)
-                0x0000000000022000                __kernel_heap_start__ = .
+.stack          0x00000000000228bc      0x600
+                0x00000000000228bc                __stack_start__ = .
+                0x0000000000022abc                . = (. + KERNEL_STACK_SIZE)
+ *fill*         0x00000000000228bc      0x200 
+                0x0000000000022abc                . = ALIGN (0x4)
+                0x0000000000022abc                __svc_stack_end__ = .
+                0x0000000000022cbc                . = (. + SYS_STACK_SIZE)
+ *fill*         0x0000000000022abc      0x200 
+                0x0000000000022cbc                . = ALIGN (0x4)
+                0x0000000000022cbc                __sys_stack_end__ = .
+                0x0000000000022ebc                . = (. + IRQ_STACK_SIZE)
+ *fill*         0x0000000000022cbc      0x200 
+                0x0000000000022ebc                . = ALIGN (0x4)
+                0x0000000000022ebc                __irq_stack_end__ = .
+                0x0000000000022ebc                __stacks_end__ = .
+                0x0000000000023000                . = ALIGN (0x1000)
+                0x0000000000023000                __kernel_heap_start__ = .
                 0x0000000000ffffff                . = 0xffffff
                 0x0000000000ffffff                __kernel_heap_end__ = .
                 0x0000000001000000                . = ALIGN (0x1000)
@@ -510,35 +518,35 @@ OUTPUT(build/kernel.elf elf32-littlearm)
  .comment       0x0000000000000000       0x12 ./libcsud.a(platform.armv6.c.o)
  .comment       0x0000000000000000       0x12 ./libcsud.a(platform.broadcom2835.c.o)
 
-.debug_line     0x0000000000000000      0xa56
+.debug_line     0x0000000000000000      0xaf1
  .debug_line    0x0000000000000000       0x4e build/asm_tools.o
- .debug_line    0x000000000000004e      0x25a build/fb.o
- .debug_line    0x00000000000002a8       0xe0 build/hw.o
- .debug_line    0x0000000000000388       0x67 build/init.o
- .debug_line    0x00000000000003ef       0x9b build/keyboard.o
- .debug_line    0x000000000000048a       0xf4 build/kheap.o
- .debug_line    0x000000000000057e       0x7a build/pwm.o
- .debug_line    0x00000000000005f8      0x12b build/sched.o
- .debug_line    0x0000000000000723       0xc6 build/syscall.o
- .debug_line    0x00000000000007e9       0xf5 build/uart.o
- .debug_line    0x00000000000008de       0x3d build/util.o
- .debug_line    0x000000000000091b      0x13b build/kmain.o
+ .debug_line    0x000000000000004e      0x25d build/fb.o
+ .debug_line    0x00000000000002ab       0xe0 build/hw.o
+ .debug_line    0x000000000000038b       0x67 build/init.o
+ .debug_line    0x00000000000003f2       0x9b build/keyboard.o
+ .debug_line    0x000000000000048d       0xf4 build/kheap.o
+ .debug_line    0x0000000000000581       0x7a build/pwm.o
+ .debug_line    0x00000000000005fb      0x12b build/sched.o
+ .debug_line    0x0000000000000726       0xc6 build/syscall.o
+ .debug_line    0x00000000000007ec       0xf5 build/uart.o
+ .debug_line    0x00000000000008e1       0x3d build/util.o
+ .debug_line    0x000000000000091e      0x1d3 build/kmain.o
 
-.debug_info     0x0000000000000000     0x1a40
+.debug_info     0x0000000000000000     0x1bbf
  .debug_info    0x0000000000000000       0x5b build/asm_tools.o
- .debug_info    0x000000000000005b      0x732 build/fb.o
- .debug_info    0x000000000000078d      0x29a build/hw.o
- .debug_info    0x0000000000000a27       0x56 build/init.o
- .debug_info    0x0000000000000a7d       0x5a build/keyboard.o
- .debug_info    0x0000000000000ad7      0x28b build/kheap.o
- .debug_info    0x0000000000000d62      0x163 build/pwm.o
- .debug_info    0x0000000000000ec5      0x39e build/sched.o
- .debug_info    0x0000000000001263      0x234 build/syscall.o
- .debug_info    0x0000000000001497      0x261 build/uart.o
- .debug_info    0x00000000000016f8       0x6c build/util.o
- .debug_info    0x0000000000001764      0x2dc build/kmain.o
+ .debug_info    0x000000000000005b      0x744 build/fb.o
+ .debug_info    0x000000000000079f      0x29a build/hw.o
+ .debug_info    0x0000000000000a39       0x56 build/init.o
+ .debug_info    0x0000000000000a8f       0x5a build/keyboard.o
+ .debug_info    0x0000000000000ae9      0x28b build/kheap.o
+ .debug_info    0x0000000000000d74      0x163 build/pwm.o
+ .debug_info    0x0000000000000ed7      0x39e build/sched.o
+ .debug_info    0x0000000000001275      0x234 build/syscall.o
+ .debug_info    0x00000000000014a9      0x261 build/uart.o
+ .debug_info    0x000000000000170a       0x6c build/util.o
+ .debug_info    0x0000000000001776      0x449 build/kmain.o
 
-.debug_abbrev   0x0000000000000000      0xaba
+.debug_abbrev   0x0000000000000000      0xae1
  .debug_abbrev  0x0000000000000000       0x14 build/asm_tools.o
  .debug_abbrev  0x0000000000000014      0x22d build/fb.o
  .debug_abbrev  0x0000000000000241      0x146 build/hw.o
@@ -550,7 +558,7 @@ OUTPUT(build/kernel.elf elf32-littlearm)
  .debug_abbrev  0x0000000000000718      0x105 build/syscall.o
  .debug_abbrev  0x000000000000081d      0x10a build/uart.o
  .debug_abbrev  0x0000000000000927       0x5c build/util.o
- .debug_abbrev  0x0000000000000983      0x137 build/kmain.o
+ .debug_abbrev  0x0000000000000983      0x15e build/kmain.o
 
 .debug_aranges  0x0000000000000000      0x180
  .debug_aranges
@@ -578,33 +586,33 @@ OUTPUT(build/kernel.elf elf32-littlearm)
  .debug_aranges
                 0x0000000000000160       0x20 build/kmain.o
 
-.debug_str      0x0000000000000000      0x8a7
- .debug_str     0x0000000000000000      0x328 build/fb.o
-                                        0x36d (size before relaxing)
- .debug_str     0x0000000000000328      0x10b build/hw.o
+.debug_str      0x0000000000000000      0x90f
+ .debug_str     0x0000000000000000      0x338 build/fb.o
+                                        0x37d (size before relaxing)
+ .debug_str     0x0000000000000338      0x10b build/hw.o
                                         0x218 (size before relaxing)
- .debug_str     0x0000000000000433       0xd8 build/kheap.o
+ .debug_str     0x0000000000000443       0xd8 build/kheap.o
                                         0x1f1 (size before relaxing)
- .debug_str     0x000000000000050b       0x58 build/pwm.o
+ .debug_str     0x000000000000051b       0x58 build/pwm.o
                                         0x160 (size before relaxing)
- .debug_str     0x0000000000000563      0x12c build/sched.o
+ .debug_str     0x0000000000000573      0x12c build/sched.o
                                         0x25f (size before relaxing)
- .debug_str     0x000000000000068f       0x64 build/syscall.o
+ .debug_str     0x000000000000069f       0x64 build/syscall.o
                                         0x1bd (size before relaxing)
- .debug_str     0x00000000000006f3       0xbd build/uart.o
+ .debug_str     0x0000000000000703       0xbd build/uart.o
                                         0x1cc (size before relaxing)
- .debug_str     0x00000000000007b0       0x1f build/util.o
+ .debug_str     0x00000000000007c0       0x1f build/util.o
                                          0xa3 (size before relaxing)
- .debug_str     0x00000000000007cf       0xd8 build/kmain.o
-                                        0x1e9 (size before relaxing)
+ .debug_str     0x00000000000007df      0x130 build/kmain.o
+                                        0x254 (size before relaxing)
 
-.debug_frame    0x0000000000000000      0x780
- .debug_frame   0x0000000000000000      0x1f8 build/fb.o
- .debug_frame   0x00000000000001f8      0x14c build/hw.o
- .debug_frame   0x0000000000000344       0x84 build/kheap.o
- .debug_frame   0x00000000000003c8       0x54 build/pwm.o
- .debug_frame   0x000000000000041c       0xf8 build/sched.o
- .debug_frame   0x0000000000000514       0xe0 build/syscall.o
- .debug_frame   0x00000000000005f4       0xa0 build/uart.o
- .debug_frame   0x0000000000000694       0x24 build/util.o
- .debug_frame   0x00000000000006b8       0xc8 build/kmain.o
+.debug_frame    0x0000000000000000      0x7c0
+ .debug_frame   0x0000000000000000      0x208 build/fb.o
+ .debug_frame   0x0000000000000208      0x14c build/hw.o
+ .debug_frame   0x0000000000000354       0x84 build/kheap.o
+ .debug_frame   0x00000000000003d8       0x54 build/pwm.o
+ .debug_frame   0x000000000000042c       0xf8 build/sched.o
+ .debug_frame   0x0000000000000524       0xe0 build/syscall.o
+ .debug_frame   0x0000000000000604       0xa0 build/uart.o
+ .debug_frame   0x00000000000006a4       0x24 build/util.o
+ .debug_frame   0x00000000000006c8       0xf8 build/kmain.o
