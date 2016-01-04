@@ -14,8 +14,6 @@ static volatile unsigned *gpio = (void *)GPIO_BASE;
 static volatile unsigned *clk = (void *)CLOCK_BASE;
 static volatile unsigned *pwm = (void *)PWM_BASE;
 
-/* Decomment this in order to get sound */
-
 static void pause(int t) {
   // Pause for about t ms
   int i;
@@ -35,7 +33,6 @@ static void audio_init(void) {
 
   unsigned int range = 0x400;
   unsigned int idiv = 2;
-  /* unsigned int pwmFrequency = (19200000 / idiv) / range; */
 
   SET_GPIO_ALT(40, 0);
   SET_GPIO_ALT(45, 0);
@@ -43,8 +40,8 @@ static void audio_init(void) {
 
   *(clk + BCM2835_PWMCLK_CNTL) = PM_PASSWORD | (1 << 5);    // stop clock
   *(clk + BCM2835_PWMCLK_DIV) = PM_PASSWORD | (idiv << 12); // set divisor
-  *(clk + BCM2835_PWMCLK_CNTL) =
-      PM_PASSWORD | 16 | 1; // enable + oscillator (raspbian has this as plla)
+  *(clk + BCM2835_PWMCLK_CNTL) = PM_PASSWORD | 1;           // oscillator
+  *(clk + BCM2835_PWMCLK_CNTL) |= PM_PASSWORD | 1 << 4;     // enable
 
   pause(2);
 
