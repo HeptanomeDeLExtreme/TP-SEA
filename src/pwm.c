@@ -1,14 +1,18 @@
 #include "pwm.h"
 #include "hw.h"
 
-extern char _binary_tune_wav_start;
+extern char _binary_tune1_wav_start;
+extern char _binary_tune1_wav_end;
+
+extern char _binary_tune2_wav_start;
+extern char _binary_tune2_wav_end;
+
+extern char _binary_tune3_wav_start;
+extern char _binary_tune3_wav_end;
 
 static volatile unsigned *gpio = (void *)GPIO_BASE;
 static volatile unsigned *clk = (void *)CLOCK_BASE;
 static volatile unsigned *pwm = (void *)PWM_BASE;
-
-/* Decomment this in order to get sound */
-char *audio_data = &_binary_tune_wav_start;
 
 static void pause(int t) {
   // Pause for about t ms
@@ -29,7 +33,6 @@ static void audio_init(void) {
 
   unsigned int range = 0x400;
   unsigned int idiv = 2;
-  /* unsigned int pwmFrequency = (19200000 / idiv) / range; */
 
   SET_GPIO_ALT(40, 0);
   SET_GPIO_ALT(45, 0);
@@ -37,8 +40,8 @@ static void audio_init(void) {
 
   *(clk + BCM2835_PWMCLK_CNTL) = PM_PASSWORD | (1 << 5);    // stop clock
   *(clk + BCM2835_PWMCLK_DIV) = PM_PASSWORD | (idiv << 12); // set divisor
-  *(clk + BCM2835_PWMCLK_CNTL) =
-      PM_PASSWORD | 16 | 1; // enable + oscillator (raspbian has this as plla)
+  *(clk + BCM2835_PWMCLK_CNTL) = PM_PASSWORD | 1;           // oscillator
+  *(clk + BCM2835_PWMCLK_CNTL) |= PM_PASSWORD | 1 << 4;     // enable
 
   pause(2);
 
@@ -62,17 +65,35 @@ static void audio_init(void) {
   pause(2);
 }
 
-void audio_test() {
+void audio_test(int tune) {
   int i = 0;
   long status;
   audio_init();
 
-  while (i < 40000) {
+  char *audio_data;
+  int sizeOfSound;
+
+  switch (tune) {
+  case 1:
+    audio_data = &_binary_tune1_wav_start;
+    sizeOfSound = &_binary_tune1_wav_end - &_binary_tune1_wav_start;
+    break;
+  case 2:
+    audio_data = &_binary_tune2_wav_start;
+    sizeOfSound = &_binary_tune2_wav_end - &_binary_tune2_wav_start;
+    break;
+  case 3:
+    audio_data = &_binary_tune3_wav_start;
+    sizeOfSound = &_binary_tune3_wav_end - &_binary_tune3_wav_start;
+    break;
+  }
+
+  while (i < sizeOfSound) {
     status = *(pwm + BCM2835_PWM_STATUS);
     if (!(status & BCM2835_FULL1)) {
       /* Decomment this in order to get sound */
       *(pwm + BCM2835_PWM_FIFO) = audio_data[i];
-      i+=1;
+      i += 1;
     }
 
     if ((status & ERRORMASK)) {
