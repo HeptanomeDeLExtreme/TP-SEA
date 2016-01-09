@@ -44,7 +44,10 @@
 #define SYS_TIMER_CLOCK 250000000 /* We use the system timer, running at 250MHz */
 #define SYS_TIMER_CLOCK_div_1000 250000
 #define DEFAULT_TIMER_INTERVAL 2500000 /* 10 ms */
-//~ #define DEFAULT_TIMER_INTERVAL 250000 /* 1 ms */
+//~ #define DEFAULT_TIMER_INTERVAL 1300000 /* 5 ms */
+//~ #define DEFAULT_TIMER_INTERVAL 500000 /* 2 ms */
+//~ #define DEFAULT_TIMER_INTERVAL 400000 /* 2 ms */
+//~ #define DEFAULT_TIMER_INTERVAL 130000 /* 0.5 ms */
 
 #define ENABLE_TIMER_IRQ() Set32(CS,2)
 #define DISABLE_TIMER_IRQ() Set32(CS,~2);
