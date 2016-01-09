@@ -23,11 +23,12 @@ struct pcb_s
     struct pcb_s* precedao;
     struct pcb_s* suivao;
 	uint32_t page_table;
-	uint32_t occupation_table;
 
     void* debut_pile;
     int code_retour;
 };
+
+unsigned int init_kern_translation_table(void);
 
 void vmem_init();
 
@@ -35,4 +36,4 @@ uint32_t vmem_translate(uint32_t va, struct pcb_s* process);
 
 uint8_t* vmem_alloc_for_userland(struct pcb_s* process, unsigned int size);
 
-void vmem_free(uint32_t addr, unsigned int nb_pages);
+void vmem_free(uint8_t* vAddress, struct pcb_s* process, unsigned int size);

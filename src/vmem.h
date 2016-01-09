@@ -47,8 +47,6 @@ void start_mmu_C();
 
 void configure_mmu_C();
 
-unsigned int init_kern_translation_table(void);
-
 uint32_t 
 find_n_free_pages(struct pcb_s* process, unsigned int nb_pages);
 

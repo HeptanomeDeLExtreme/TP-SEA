@@ -287,14 +287,14 @@ void do_sys_gettime(int stackPointer)
 
 void do_sys_munmap(int stackPointer)
 {
-  uint32_t addr = 0;
+  uint8_t* addr = 0;
   unsigned int nb_pages = 0;
   __asm("mov r1, %0"::"r"(stackPointer)); //first argument
-  __asm("ldr %0, [r1, #4]":"=r"(addr)); //first argument is at sp+4
+  __asm("ldr %0, [r1, #4]":"=r"(nb_pages)); //first argument is at sp+4
   __asm("mov r1, %0"::"r"(stackPointer)); //first argument
-  __asm("ldr %0, [r1, #8]":"=r"(nb_pages)); //argument on 64bits
+  __asm("ldr %0, [r1, #8]":"=r"(addr)); //argument on 64bits
 
-  vmem_free(addr, nb_pages);
+  vmem_free(addr, current_process, nb_pages);
 
   return;
 

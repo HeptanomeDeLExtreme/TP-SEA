@@ -191,13 +191,14 @@ void sched_init()
     kmain_process.precedao = &kmain_process;
     kmain_process.suivao = &kmain_process;
 
-    current_process = &kmain_process;
-
     #if VMEM
 	vmem_init();
 	#else
 	kheap_init();
 	#endif
+
+    kmain_process.page_table = MMUTABLEBASE;
+    current_process = &kmain_process;
 }
 
 
