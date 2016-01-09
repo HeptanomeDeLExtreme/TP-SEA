@@ -1341,7 +1341,7 @@ void commandProcess()
 	else if(resultReboot == 0)
 	{
 		drawString("Tentative de reboot...", 22);
-		__asm("mov pc, #0x0000");
+		__asm("mov pc, #0x8000");
 	}
 	else
 	{
@@ -1386,6 +1386,13 @@ void keyboardLoop()
 				
 				newLine();
 				applyMethod();
+				extern int offsetX;
+				if(offsetX > 768)
+				{
+					clear();
+					drawChar('>');
+					drawChar(' ');
+				}
 			}
 			else if(c == 'h')
 			{
