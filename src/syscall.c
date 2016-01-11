@@ -18,6 +18,11 @@
 #include <stdint.h>
 #include "sched.h"
 
+#include "gpio.h"
+#include "asm_tools.h"
+#include "uart.h"
+#include "config.h"
+
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
 #define SYS_REBOOT  1
@@ -179,7 +184,14 @@ void sys_nop()
 void do_sys_reboot()
 {
 
-    __asm("mov pc, #0x0000");
+    //~ __asm("mov pc, #0x0000");
+	//~ const int PM_RSTC = 0x2010001c;
+	//~ const int PM_WDOG = 0x20100024;
+	//~ const int PM_PASSWORD = 0x5a000000;
+	//~ const int PM_RSTC_WRCFG_FULL_RESET = 0x00000020;
+	Set32(PM_WDOG, PM_PASSWORD | 1);
+	Set32(PM_RSTC, PM_PASSWORD | PM_RSTC_WRCFG_FULL_RESET);
+	while(1);
     return;
 
 }

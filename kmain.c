@@ -1341,7 +1341,7 @@ void commandProcess()
 	else if(resultReboot == 0)
 	{
 		drawString("Tentative de reboot...", 22);
-		__asm("mov pc, #0x8000");
+		sys_reboot();
 	}
 	else
 	{
